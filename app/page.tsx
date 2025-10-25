@@ -36,7 +36,7 @@ export default function Home() {
           size="lg"
           className="text-lg px-8 py-6 shadow-xl hover:scale-105 transition-transform w-full bg-red-600 hover:bg-red-700"
         >
-          <Link href="/protected">PLACES</Link>
+          <Link href="/places">PLACES</Link>
         </Button>
 
         <Button
