@@ -76,7 +76,7 @@ export default function VideoIntroModal({
                     variant="ghost"
                     size="sm"
                     onClick={onComplete}
-                    className="absolute top-4 left-4 h-8 w-8 p-0 bg-black bg-opacity-70 text-white hover:bg-opacity-90 z-10"
+                    className="absolute top-4 left-4 h-8 w-8 p-0 bg-black bg-opacity-70 text-white hover:bg-opacity-90 z-50 pointer-events-auto"
                 >
                     <X className="w-4 h-4" />
                 </Button>
