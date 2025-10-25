@@ -56,7 +56,9 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/progress") &&
     !request.nextUrl.pathname.startsWith("/treasure-hunt") &&
     !request.nextUrl.pathname.startsWith("/history") &&
-    !request.nextUrl.pathname.startsWith("/share")
+    !request.nextUrl.pathname.startsWith("/share") &&
+    !request.nextUrl.pathname.startsWith("/image-ar") &&
+    !request.nextUrl.pathname.startsWith("/ar")
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();

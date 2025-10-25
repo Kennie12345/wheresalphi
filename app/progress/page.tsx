@@ -197,11 +197,11 @@ export default function ProgressPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
       <div className="max-w-4xl mx-auto space-y-6 pt-8">
         {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Your Treasure Hunt Progress
+        <div className="text-center animate-in fade-in slide-in-from-top duration-700">
+          <h1 className="text-3xl md:text-4xl font-bold text-red-600 drop-shadow-lg mb-2">
+            YOUR PROGRESS
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             Track your journey through the hidden spots
           </p>
         </div>
@@ -473,13 +473,20 @@ export default function ProgressPage() {
         </Card>
 
         {/* Action Buttons */}
-        <div className="flex gap-4 justify-center pb-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pb-8">
           <Button
             variant="outline"
             onClick={() => (window.location.href = "/places")}
           >
             <MapPin className="w-4 h-4 mr-2" />
             Continue Hunt
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/history")}
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            View History
           </Button>
           <Button variant="outline">
             <Share2 className="w-4 h-4 mr-2" />

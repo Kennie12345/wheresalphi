@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useRouter } from 'next/navigation';
 
 interface AlphaQuestionnaireModalProps {
     onClose: () => void;
@@ -23,6 +24,7 @@ interface QuestionnaireData {
 }
 
 export default function AlphaQuestionnaireModal({ onClose, onSubmit }: AlphaQuestionnaireModalProps) {
+    const router = useRouter();
     const [formData, setFormData] = useState<QuestionnaireData>({
         name: '',
         email: '',
@@ -58,11 +60,21 @@ export default function AlphaQuestionnaireModal({ onClose, onSubmit }: AlphaQues
         console.log('Questionnaire submitted:', formData);
         setIsSubmitting(false);
         onClose();
+
+        // Navigate to ImageAR page after a short delay
+        setTimeout(() => {
+            router.push('/image-ar');
+        }, 300);
     };
 
     const handleSkip = () => {
         console.log('Questionnaire skipped');
         onClose();
+
+        // Navigate to ImageAR page even if skipped
+        setTimeout(() => {
+            router.push('/image-ar');
+        }, 300);
     };
 
     return (
