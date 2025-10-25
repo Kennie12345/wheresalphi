@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Play, MapPin, Clock, Loader2 } from 'lucide-react';
+import { X, Play, MapPin, Clock, Loader2, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import ReflectionsDialog from '@/components/ReflectionsDialog';
 
 import { Spot, GameState } from '@/lib/treasure-hunt/types';
 import { completeSpot } from '@/lib/treasure-hunt/storage';
@@ -23,6 +24,7 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showVideo, setShowVideo] = useState(false);
+    const [isReflectionDialogOpen, setIsReflectionDialogOpen] = useState(false);
 
     const isCompleted = gameState.progress.completedSpotIds.includes(spot.id);
     const spotIndex = gameState.spots.findIndex(s => s.id === spot.id);
@@ -93,6 +95,20 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
         handleSubmitReflection();
     };
 
+    const handleAdditionalReflection = async (reflectionText: string) => {
+        // Handle additional reflection submission
+        const reflection = {
+            spotId: spot.id,
+            text: reflectionText,
+            createdAt: new Date().toISOString(),
+        };
+
+        const response = await submitReflection(reflection);
+        if (response.success) {
+            console.log('Additional reflection submitted successfully');
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -132,6 +148,14 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
                                 </div>
                                 <p className="text-xs text-gray-600 mt-1">{collectible.description}</p>
                             </div>
+                            <Button
+                                onClick={() => setIsReflectionDialogOpen(true)}
+                                variant="outline"
+                                className="mt-4 w-full"
+                            >
+                                <MessageSquare className="w-4 h-4 mr-2" />
+                                Add More Reflections
+                            </Button>
                         </div>
                     ) : (
                         <>
@@ -255,6 +279,14 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
                     )}
                 </CardContent>
             </Card>
+
+            <ReflectionsDialog
+                open={isReflectionDialogOpen}
+                onOpenChange={setIsReflectionDialogOpen}
+                spotTitle={spot.title}
+                spotId={spot.id}
+                onSubmit={handleAdditionalReflection}
+            />
         </div>
     );
 }

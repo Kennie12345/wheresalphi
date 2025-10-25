@@ -3,27 +3,10 @@
 import { useState, Suspense } from "react";
 import TreasureHunt from "@/components/TreasureHunt";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
+import ReflectionsDialog from "@/components/ReflectionsDialog";
 
 export default function PlacesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [reflections, setReflections] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement submission logic (e.g., save to database)
-    console.log("Reflections submitted:", reflections);
-    setIsDialogOpen(false);
-    setReflections("");
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -56,37 +39,7 @@ export default function PlacesPage() {
       </div>
 
       {/* Reflections Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <form onSubmit={handleSubmit}>
-            <DialogHeader>
-              <DialogTitle>Share your Alpha reflections</DialogTitle>
-              <DialogDescription>
-                Take a moment to reflect on your experience at this location.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="py-4">
-              <Textarea
-                placeholder="Share your thoughts and reflections..."
-                value={reflections}
-                onChange={(e) => setReflections(e.target.value)}
-                className="min-h-[150px]"
-                required
-              />
-            </div>
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="submit">Submit</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ReflectionsDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 }
