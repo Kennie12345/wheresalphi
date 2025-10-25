@@ -19,14 +19,14 @@ export default function Home() {
             quality={100}
           />
         </div>
-              <div className="relative z-10 px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-red-600 drop-shadow-lg px-4 py-2">
-          WHERE'S ALPHI?
-        </h1>
-      </div>
+        <div className="relative z-10 px-6 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-red-600 drop-shadow-lg px-4 py-2">
+            WHERE'S ALPHI?
+          </h1>
+        </div>
       </div>
 
-            {/* Title at top */}
+      {/* Title at top */}
 
 
       {/* Buttons at bottom */}
