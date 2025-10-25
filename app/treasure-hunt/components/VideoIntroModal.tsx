@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 interface VideoIntroModalProps {
     onComplete: () => void;
@@ -69,6 +71,16 @@ export default function VideoIntroModal({
     return (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-[9999]">
             <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden bg-black border-gray-700 relative">
+                {/* Close button */}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onComplete}
+                    className="absolute top-4 left-4 h-8 w-8 p-0 bg-black bg-opacity-70 text-white hover:bg-opacity-90 z-10"
+                >
+                    <X className="w-4 h-4" />
+                </Button>
+
                 <div className="relative w-full" style={{ paddingBottom: '177.78%', maxHeight: '90vh' }}>
                     {/* YouTube embed - Shorts aspect ratio is 9:16 (177.78%) */}
                     <iframe
