@@ -1,15 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Camera, Upload, CheckCircle2, Sparkles, X } from "lucide-react";
+import { Camera, Upload, CheckCircle2, Sparkles, X, Share2 } from "lucide-react";
 import Image from "next/image";
 import ShareModal from "@/components/ShareModal";
 import { useRouter } from "next/navigation";
 
+// Dynamically import camera component (no SSR)
+const ARCameraComponent = dynamic(() => import('./components/ARCameraComponent'), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+      <div className="text-white text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+        <p className="text-lg">Loading Camera...</p>
+      </div>
+    </div>
+  ),
+});
+
 export default function ImageARPage() {
   const router = useRouter();
+  const [cameraMode, setCameraMode] = useState<'intro' | 'camera' | 'processing'>('intro');
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [arComplete, setArComplete] = useState(false);
@@ -21,10 +36,10 @@ export default function ImageARPage() {
       const timer = setTimeout(() => {
         setIsProcessing(false);
         setArComplete(true);
-        // Auto-show share modal after AR completes
+        // Auto-show share modal after AR completes (also shows manual share button)
         setTimeout(() => {
           setShowShareModal(true);
-        }, 1000);
+        }, 1500);
       }, 2000);
 
       return () => clearTimeout(timer);
@@ -32,38 +47,59 @@ export default function ImageARPage() {
   }, [capturedImage, isProcessing]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target?.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setCapturedImage(e.target?.result as string);
         setIsProcessing(true);
+        setCameraMode('processing');
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleCameraCapture = () => {
-    // In a real app, this would open the camera
-    // For now, we'll simulate it
-    alert("Camera functionality would open here. For demo, use the upload button.");
+  const handleUseCameraClick = () => {
+    setCameraMode('camera');
+  };
+
+  const handleCameraCancel = () => {
+    setCameraMode('intro');
+  };
+
+  const handlePhotoCapture = (imageDataUrl: string) => {
+    setCapturedImage(imageDataUrl);
+    setIsProcessing(true);
+    setCameraMode('processing');
   };
 
   const handleRetake = () => {
     setCapturedImage(null);
     setArComplete(false);
     setIsProcessing(false);
+    setCameraMode('intro');
   };
 
   const handleShareModalClose = (open: boolean) => {
     setShowShareModal(open);
-    // If modal is closed, navigate to progress page
+    // If modal is closed, navigate to history page
     if (!open) {
       setTimeout(() => {
-        router.push("/progress");
+        router.push("/history");
       }, 300);
     }
   };
+
+  // Show camera component in full screen
+  if (cameraMode === 'camera') {
+    return (
+      <ARCameraComponent
+        onPhotoCapture={handlePhotoCapture}
+        onCancel={handleCameraCancel}
+        theme="wheres-alphi"
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-blue-50 to-purple-50 p-4">
@@ -82,7 +118,7 @@ export default function ImageARPage() {
         <Card className="animate-in fade-in slide-in-from-bottom duration-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Camera className="w-5 h-5 text-blue-600" />
+              <Camera className="w-5 h-5 text-red-600" />
               AR Photo Finder
             </CardTitle>
             <CardDescription>
@@ -158,12 +194,12 @@ export default function ImageARPage() {
             </div>
 
             {/* Action Buttons */}
-            {!capturedImage && (
+            {!capturedImage && cameraMode === 'intro' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 animate-in fade-in slide-in-from-bottom duration-700 delay-200">
                 <Button
                   size="lg"
-                  onClick={handleCameraCapture}
-                  className="w-full bg-red-600 hover:bg-red-700"
+                  onClick={handleUseCameraClick}
+                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all duration-200"
                 >
                   <Camera className="w-5 h-5 mr-2" />
                   Use Camera
@@ -173,7 +209,7 @@ export default function ImageARPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full border-red-600 text-red-600 hover:bg-red-50"
+                    className="w-full border-red-600 text-red-600 hover:bg-red-50 hover:scale-105 transition-all duration-200"
                     asChild
                   >
                     <div>
@@ -186,56 +222,81 @@ export default function ImageARPage() {
                   id="file-upload"
                   type="file"
                   accept="image/*"
+                  capture="environment"
                   className="hidden"
                   onChange={handleFileUpload}
                 />
               </div>
             )}
 
-            {/* Success Message */}
+            {/* Success Message & Actions */}
             {arComplete && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 animate-in fade-in slide-in-from-bottom duration-500">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-green-900 mb-1">
-                      You Found Alphi!
-                    </h3>
-                    <p className="text-sm text-green-800">
-                      Great job! Alphi was hiding in this location. Share your discovery with friends!
-                    </p>
+              <div className="space-y-3">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 animate-in fade-in slide-in-from-bottom duration-500">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-semibold text-green-900 mb-1">
+                        You Found Alphi!
+                      </h3>
+                      <p className="text-sm text-green-800">
+                        Great job! Alphi was hiding in this location. Share your discovery with friends!
+                      </p>
+                    </div>
                   </div>
                 </div>
+
+                {/* Share Button */}
+                <Button
+                  size="lg"
+                  onClick={() => setShowShareModal(true)}
+                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all duration-200 shadow-lg animate-in fade-in slide-in-from-bottom duration-500 delay-200"
+                >
+                  <Share2 className="w-5 h-5 mr-2" />
+                  Share Your Discovery
+                </Button>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Instructions Card */}
-        {!capturedImage && (
+        {!capturedImage && cameraMode === 'intro' && (
           <Card className="animate-in fade-in slide-in-from-bottom duration-700 delay-300">
             <CardHeader>
-              <CardTitle className="text-lg">How it works</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-red-600" />
+                How it works
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <ol className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="flex-shrink-0 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              <ol className="space-y-3 text-sm text-gray-700">
+                <li className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
                     1
                   </span>
-                  <span>Take a photo of your current location or upload an existing photo</span>
+                  <div>
+                    <p className="font-semibold text-gray-900">Capture or Upload</p>
+                    <p className="text-gray-600">Take a photo with your camera or upload an existing photo of the location</p>
+                  </div>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="flex-shrink-0 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                <li className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
                     2
                   </span>
-                  <span>Our AR technology will analyze the image to find Alphi</span>
+                  <div>
+                    <p className="font-semibold text-gray-900">AR Detection</p>
+                    <p className="text-gray-600">Our AR technology will analyze the image to find where Alphi is hiding</p>
+                  </div>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="flex-shrink-0 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                <li className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
                     3
                   </span>
-                  <span>Share your discovery and track your progress!</span>
+                  <div>
+                    <p className="font-semibold text-gray-900">Share & Celebrate</p>
+                    <p className="text-gray-600">Share your discovery with friends and view your complete journey history!</p>
+                  </div>
                 </li>
               </ol>
             </CardContent>
