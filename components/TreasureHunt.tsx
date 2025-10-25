@@ -13,12 +13,12 @@ import { generateSpots } from '@/lib/treasure-hunt/spotGenerator';
 import { loadProgress, saveProgress, initializeProgress, isGameCompleted } from '@/lib/treasure-hunt/storage';
 import { getNearbyAlphaVenue } from '@/lib/treasure-hunt/api';
 
-import RegionSelector from './components/RegionSelector';
-import ProgressHUD from './components/ProgressHUD';
-import NextStepPanel from './components/NextStepPanel';
+import RegionSelector from '@/app/treasure-hunt/components/RegionSelector';
+import ProgressHUD from '@/app/treasure-hunt/components/ProgressHUD';
+import NextStepPanel from '@/app/treasure-hunt/components/NextStepPanel';
 
 // Dynamically import map component to avoid SSR issues
-const TreasureMap = dynamic(() => import('./components/TreasureMap'), {
+const TreasureMap = dynamic(() => import('@/app/treasure-hunt/components/TreasureMap'), {
     ssr: false,
     loading: () => (
         <div className="flex items-center justify-center h-96 bg-gray-100 rounded-lg">
