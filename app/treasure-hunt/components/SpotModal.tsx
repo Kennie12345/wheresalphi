@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Play, MapPin, Clock, Loader2, MessageSquare } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { X, MapPin, Clock, Loader2, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ReflectionsDialog from '@/components/ReflectionsDialog';
@@ -20,10 +21,11 @@ interface SpotModalProps {
 }
 
 export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose, userLocation }: SpotModalProps) {
+    console.log('SpotModal rendering for:', spot.title, 'isCompleted:', gameState.progress.completedSpotIds.includes(spot.id));
+
     const [reflectionText, setReflectionText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [showVideo, setShowVideo] = useState(false);
     const [isReflectionDialogOpen, setIsReflectionDialogOpen] = useState(false);
 
     const isCompleted = gameState.progress.completedSpotIds.includes(spot.id);
@@ -109,8 +111,8 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
         }
     };
 
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    const modalContent = (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[1000]">
             <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
                 <CardHeader>
                     <div className="flex items-center justify-between">
@@ -149,7 +151,10 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
                                 <p className="text-xs text-gray-600 mt-1">{collectible.description}</p>
                             </div>
                             <Button
-                                onClick={() => setIsReflectionDialogOpen(true)}
+                                onClick={() => {
+                                    console.log('Button clicked, opening reflection dialog');
+                                    setIsReflectionDialogOpen(true);
+                                }}
                                 variant="outline"
                                 className="mt-4 w-full"
                             >
@@ -159,29 +164,6 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
                         </div>
                     ) : (
                         <>
-                            {/* Video Taster */}
-                            <div className="space-y-2">
-                                <h3 className="font-semibold">Taster Experience</h3>
-                                {!showVideo ? (
-                                    <div className="bg-gray-100 rounded-lg p-8 text-center">
-                                        <Button onClick={() => setShowVideo(true)} className="mb-2">
-                                            <Play className="w-4 h-4 mr-2" />
-                                            Watch Taster Video
-                                        </Button>
-                                        <p className="text-sm text-gray-600">Click to unlock this spot's experience</p>
-                                    </div>
-                                ) : (
-                                    <div className="bg-gray-100 rounded-lg p-4 text-center">
-                                        <div className="mb-3">
-                                            <div className="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
-                                                <span className="text-gray-500">📹 Video Placeholder</span>
-                                            </div>
-                                            <p className="text-xs text-gray-600">Video content would be loaded here</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
                             {/* Verse */}
                             <div className="space-y-2">
                                 <h3 className="font-semibold">{spot.verseRef}</h3>
@@ -289,4 +271,9 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
             />
         </div>
     );
+
+    // Render modal in a portal to avoid z-index and overflow issues
+    return typeof document !== 'undefined'
+        ? createPortal(modalContent, document.body)
+        : null;
 }

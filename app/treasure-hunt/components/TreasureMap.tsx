@@ -7,6 +7,8 @@ import { useSearchParams } from 'next/navigation';
 
 import { GameState, Spot, Region } from '@/lib/treasure-hunt/types';
 import SpotModal from './SpotModal';
+import VideoIntroModal from './VideoIntroModal';
+import AlphaQuestionnaireModal from './AlphaQuestionnaireModal';
 
 // Fix for default markers in Next.js
 const defaultIcon = new Icon({
@@ -42,6 +44,17 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
     const searchParams = useSearchParams();
     const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
     const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+    const [showVideoIntro, setShowVideoIntro] = useState(false);
+    const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+
+    // Show video intro after 3 seconds on mount
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowVideoIntro(true);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // Handle deep linking
     useEffect(() => {
@@ -77,12 +90,29 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
     };
 
     const handleSpotClick = (spot: Spot) => {
+        console.log('Spot clicked:', spot.title);
         setSelectedSpot(spot);
     };
 
     const handleModalClose = () => {
         setSelectedSpot(null);
     };
+
+    const handleVideoComplete = () => {
+        setShowVideoIntro(false);
+        setShowQuestionnaire(true);
+    };
+
+    const handleQuestionnaireClose = () => {
+        setShowQuestionnaire(false);
+    };
+
+    const handleQuestionnaireSubmit = (data: any) => {
+        console.log('Alpha questionnaire submitted:', data);
+        // Here you could send the data to your API
+    };
+
+    console.log('TreasureMap render - selectedSpot:', selectedSpot?.title || 'none');
 
     return (
         <>
@@ -159,6 +189,19 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                     onGameStateUpdate={onGameStateUpdate}
                     onClose={handleModalClose}
                     userLocation={userLocation}
+                />
+            )}
+
+            {showVideoIntro && (
+                <VideoIntroModal
+                    onComplete={handleVideoComplete}
+                />
+            )}
+
+            {showQuestionnaire && (
+                <AlphaQuestionnaireModal
+                    onClose={handleQuestionnaireClose}
+                    onSubmit={handleQuestionnaireSubmit}
                 />
             )}
         </>
