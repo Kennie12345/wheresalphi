@@ -1,0 +1,15 @@
+This is a placeholder marker image file.
+To test the AR functionality properly, you need to replace this with an actual PNG image.
+
+For quick testing, you can:
+1. Create a simple black and white pattern image (512x512px)
+2. Use a QR code as a marker  
+3. Use any high-contrast image with clear geometric features
+
+Example marker images you can use:
+- A printed QR code
+- A logo with clear edges
+- A geometric pattern
+- Even a simple black square on white background
+
+Save it as marker.png in this directory.

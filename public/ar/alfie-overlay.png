@@ -1,0 +1,13 @@
+This is a placeholder for the Alfie overlay image.
+For testing the 2D overlay mode, replace this with:
+
+- A PNG image with transparency (256x256px recommended)  
+- Could be any character, emoji, or logo
+- Should have transparent background for best effect
+
+For quick testing, you can use:
+- Save any emoji as PNG
+- Use a simple character sprite
+- Create a colored circle or shape with transparency
+
+Save it as alfie-overlay.png in this directory.
