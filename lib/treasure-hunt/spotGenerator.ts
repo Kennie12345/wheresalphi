@@ -1,5 +1,5 @@
 import { Spot, Region } from './types';
-import { VERSES, REFLECTION_PROMPTS, SPOT_THEMES } from './mockData';
+import { VERSES, REFLECTION_PROMPTS, SPOT_THEMES, SPOT_HISTORIES } from './mockData';
 
 // Seeded random number generator for deterministic results
 class SeededRandom {
@@ -128,11 +128,14 @@ export function generateSpots(region: Region, seed: string): Spot[] {
             prompt2Index = rng.int(0, REFLECTION_PROMPTS.length - 1);
         }
 
+        const spotTheme = SPOT_THEMES[index] || `Discovery Point ${index + 1}`;
+        const spotHistory = SPOT_HISTORIES[index];
+
         return {
             id: `spot-${index + 1}`,
             lat: spot.lat,
             lon: spot.lon,
-            title: SPOT_THEMES[index] || `Discovery Point ${index + 1}`,
+            title: spotTheme,
             verseRef: verse.ref,
             verse: verse.text,
             tasterVideoUrl: '/placeholder-video.mp4',
@@ -140,6 +143,7 @@ export function generateSpots(region: Region, seed: string): Spot[] {
                 REFLECTION_PROMPTS[prompt1Index],
                 REFLECTION_PROMPTS[prompt2Index],
             ],
+            history: spotHistory,
         };
     });
 }

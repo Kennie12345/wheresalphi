@@ -7,6 +7,15 @@ export interface Region {
     radiusM: number;
 }
 
+export interface SpotHistory {
+    theme: string;
+    title: string;
+    history: string;
+    culturalSignificance: string;
+    interestingFact: string;
+    connections: string;
+}
+
 export interface Spot {
     id: string;
     lat: number;
@@ -16,6 +25,7 @@ export interface Spot {
     tasterVideoUrl?: string;
     verse: string;
     reflectionPrompts: string[];
+    history?: SpotHistory;
 }
 
 export interface UserProgress {
