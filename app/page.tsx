@@ -19,7 +19,7 @@ export default function Home() {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-6 py-12 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold text-foreground drop-shadow-lg">
+        <h1 className="text-5xl md:text-6xl font-bold text-foreground drop-shadow-lg text-red-600 bg-white/70 px-4 py-2 rounded-lg">
           Hello Alphi!
         </h1>
 
