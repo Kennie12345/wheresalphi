@@ -121,7 +121,31 @@
 }
 
 .leaflet-popup {
-  z-index: 1000 !important;
+  z-index: 1100 !important;
+}
+
+/* Improve tooltip styling */
+.leaflet-tooltip {
+  z-index: 1050 !important;
+  @apply bg-white rounded-lg shadow-xl border-2 border-red-600;
+  padding: 8px 12px !important;
+  font-family: inherit !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: #DC2626 !important;
+}
+
+.leaflet-tooltip-bottom:before {
+  border-bottom-color: #DC2626 !important;
+}
+
+.leaflet-tooltip-left:before {
+  border-left-color: #DC2626 !important;
+}
+
+.leaflet-tooltip-right:before {
+  border-right-color: #DC2626 !important;
 }
 
 /* Fix line clamp visibility */
@@ -196,4 +220,18 @@
 .completed-marker {
   background-color: #000000 !important;
   box-shadow: 0 0 0 2px black, 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Completed marker pulse animation */
+.completed-marker-pulse {
+  animation: marker-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes marker-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
