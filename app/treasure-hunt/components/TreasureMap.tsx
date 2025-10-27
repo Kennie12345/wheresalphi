@@ -8,6 +8,7 @@ import { Locate, AlertCircle, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { GameState, Spot, Region } from '@/lib/treasure-hunt/types';
+import { THEME_BLURBS } from '@/lib/treasure-hunt/mockData';
 import SpotModal from './SpotModal';
 
 // Custom Alphi marker icon - using WheresAlphi.png with red background
@@ -293,7 +294,14 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                                 <div className="text-center">
                                     <p className="font-bold text-sm text-red-600 mb-1">{spot.title}</p>
                                     {spot.history && (
-                                        <p className="text-xs text-gray-700 mb-1">{spot.history.theme}</p>
+                                        <>
+                                            <p className="text-xs text-gray-700 mb-1 font-semibold">{spot.history.theme}</p>
+                                            {THEME_BLURBS[spot.history.theme] && (
+                                                <p className="text-xs text-gray-600 mb-2 leading-relaxed max-w-xs">
+                                                    {THEME_BLURBS[spot.history.theme]}
+                                                </p>
+                                            )}
+                                        </>
                                     )}
                                     {distanceText && (
                                         <p className="text-xs text-red-600 font-medium">📍 {distanceText}</p>

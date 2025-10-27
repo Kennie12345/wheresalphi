@@ -238,6 +238,19 @@ export const SPOT_VIDEOS: Record<string, string> = {
     'Tribes': 'https://vimeo.com/808212945',        // Sam Thompson
 };
 
+// Theme blurbs from Alpha Life Essentials guides
+// Source: https://alphaone.io/life-essentials
+export const THEME_BLURBS: Record<string, string> = {
+    'Fame': 'Explores the difference between fleeting fame and lasting impact, featuring YouTube stars How Ridiculous discussing real influence',
+    'Labels': 'Unpacks positive and negative labels we wear, with twin sisters Bec & Marissa sharing how faith helps maintain authenticity',
+    'Stress': 'Dives into stress and anxiety affecting young people, offering practical management strategies and tools for finding peace',
+    'Originals': 'Olympic athlete Nicola Olyslagers discusses staying true to yourself and embracing unique identity in a comparison-driven world',
+    'Ghosting': 'Explores why ghosting happens, its impacts on both parties, and practical wisdom for addressing this common issue',
+    'Future': 'Examines approaching the unknown with insights on taking meaningful risks and becoming the person you aspire to be',
+    'Good & Evil': 'Isaiah Simmons shares his story reflecting on inner darkness and what truly choosing good means in everyday life',
+    'Tribes': 'Highlights how communities and friendships shape identity, exploring inclusion and the power of connection',
+};
+
 // Historical and cultural information for each spot theme - Alpha Youth Life Essentials Series
 export const SPOT_HISTORIES = [
     {

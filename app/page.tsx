@@ -1,6 +1,30 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Where's Alphi? - Start Your Adventure",
+  description: "A gamified real-world treasure hunt experience that meets teenagers where they are. Built on the philosophy of Alpha, we provide all the resources—your job is simply to bring your friends. Explore Alpha through an interactive adventure combining digital technology with real-world exploration.",
+  openGraph: {
+    title: "Where's Alphi? - Start Your Adventure",
+    description: "Built on the philosophy of Alpha - a gamified treasure hunt that combines digital engagement with real-world exploration. Bring your friends and start your journey today!",
+    images: [
+      {
+        url: '/WheresAlphi.png',
+        width: 1200,
+        height: 1200,
+        alt: "Where's Alphi - Interactive treasure hunt adventure",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Where's Alphi? - Start Your Adventure",
+    description: "A gamified treasure hunt that meets Gen Z where they are. Explore Alpha with friends through an interactive real-world adventure.",
+    images: ['/WheresAlphi.png'],
+  },
+};
 
 export default function Home() {
   return (
@@ -24,20 +48,19 @@ export default function Home() {
           <h1 className="text-7xl font-bold text-white drop-shadow-lg px-4 py-2 animate-in fade-in zoom-in duration-700 delay-300">
             WHERE'S ALPHI?
           </h1>
-          <p className="text-white mt-2 animate-in fade-in slide-in-from-bottom duration-700 delay-500">
+          <p className="text-white mt-2 animate-in fade-in slide-in-from-bottom duration-700 delay-500 uppercase font-semibold tracking-wide">
             Start your adventure to find Alphi!
           </p>
         </div>
-      </div>
-
-      {/* Buttons at bottom */}
-      <div className="relative z-10 flex flex-col gap-4 px-6 pb-12 w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom duration-700 delay-700">
-        <Button
+              
+      <div className="relative z-10 mt-4 flex flex-col gap-4 px-6 pb-12 w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom duration-700 delay-700">
+                <Button
           asChild
           size="lg"
-          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-white text-black bold hover:bg-gray-50 hover:shadow-2xl"
+          className="text-lg px-8 py-6 shadow-xl w-full bg-white text-black bold hover:bg-gray-50 hover:shadow-2xl"
         >
-          <Link href="/places">START</Link>
+          <Link 
+href="/places"> <p className="animate animate-pulse transition-all duration-200"           style={{ animationDuration: '3s' }}>START</p></Link>
         </Button>
 
         <Button
@@ -47,14 +70,29 @@ export default function Home() {
         >
           <Link href="/progress">PROGRESS</Link>
         </Button>
+</div></div>
+
+
+      {/* Buttons at bottom */}
+      <div className="relative z-10 flex flex-col gap-4 px-6 pb-12 w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom duration-700 delay-700">
+
 
         <Button
           asChild
           size="lg"
-          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-white text-black bold hover:bg-gray-50 hover:shadow-2xl"
+          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
         >
           <Link href="/about">ABOUT</Link>
         </Button>
+
+        <Button
+          asChild
+          size="lg"
+          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
+        >
+          <Link href="/team">TEAM</Link>
+        </Button>
+
       </div>
     </main>
   );

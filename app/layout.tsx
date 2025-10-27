@@ -10,13 +10,36 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Where's Alphi - Treasure Hunt Adventure",
-  description: "Start your adventure to find Alphi in this interactive mobile treasure hunt",
+  description: "A gamified real-world treasure hunt experience that meets teenagers where they are—digitally engaged yet craving authentic, in-person connections. Explore Alpha through an interactive adventure with friends.",
   viewport: {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
     userScalable: false,
   },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: defaultUrl,
+    siteName: "Where's Alphi",
+    title: "Where's Alphi - Treasure Hunt Adventure",
+    description: "A gamified real-world treasure hunt experience. Explore Alpha through an interactive adventure combining digital technology with real-world exploration to create meaningful memories and genuine connection.",
+    images: [
+      {
+        url: '/WheresAlphi.png',
+        width: 1200,
+        height: 1200,
+        alt: "Where's Alphi - Find Alphi on your adventure",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Where's Alphi - Treasure Hunt Adventure",
+    description: "A gamified real-world treasure hunt experience. Join the adventure to explore Alpha with friends through an interactive mobile experience.",
+    images: ['/WheresAlphi.png'],
+  },
+  keywords: ['treasure hunt', 'Alpha', 'adventure', 'gamification', 'faith exploration', 'youth engagement', 'real-world experience'],
 };
 
 const geistMono = Geist_Mono({
