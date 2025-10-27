@@ -85,8 +85,8 @@ function isValidSpot(
 }
 
 // Generate exactly 8 spots with minimum spacing
-export function generateSpots(region: Region, seed: string, userLocation?: { lat: number; lon: number }): Spot[] {
-    const rng = new SeededRandom(seed + region.key);
+export function generateSpots(region: Region, huntCode: string, userLocation?: { lat: number; lon: number }): Spot[] {
+    const rng = new SeededRandom(huntCode + region.key);
     const spots: { lat: number; lon: number }[] = [];
     const maxAttempts = 1000;
     let attempts = 0;

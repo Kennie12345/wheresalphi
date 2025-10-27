@@ -1,9 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function AboutPage() {
+  const [isSolutionOpen, setIsSolutionOpen] = useState(false);
+  const [isHowWesolveOpen, setIsHowWesolveOpen] = useState(false);
+  const [isFunnelOpen, setIsFunnelOpen] = useState(false);
+  const [isImpactOpen, setIsImpactOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-red-50 to-white">
       <div className="container mx-auto px-6 py-8 max-w-4xl">
@@ -18,25 +26,27 @@ export default function AboutPage() {
             Back to Home
           </Link>
         </Button>
+          <div className=" flex p-2 items-center justify-center text-black my-8 rounded-lg uppercase text-center text-md font-bold">
+            <Image src="/faithtech-logo.png" alt="FaithTech Logo" width={50} height={50} className="inline-block mr-2 " /><p className="max-w-80">A FaithTech Australia Hackathon 2025 Entry</p> 
+          </div>
+
 
         {/* Header */}
         <div className="text-center mb-12 animate-in fade-in slide-in-from-top duration-700">
+          <Image src="/3dWheresAlphi.png" alt="Where's Alphi Logo" width={200} height={100} className="mx-auto mb-4 " />
           <h1 className="text-5xl font-bold text-red-600 mb-4">
             WHERE&apos;S ALPHI?
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-red-600">
             A Gamified Real-World Treasure Hunt Experience
-          </p>
-          <p className="text-lg text-gray-500 mt-4">
-            A FaithTech Australian Hackathon 2025 Entry
           </p>
         </div>
 
         {/* Main content */}
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom duration-700">
           {/* Problem Statement */}
-          <section className="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg shadow-lg p-8 border-l-4 border-red-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <section className="bg-red-50 rounded-lg shadow-lg p-8 border-l-4 border-red-600">
+            <h2 className="text-3xl font-bold text-black mb-4">
               The Challenge
             </h2>
             <p className="text-gray-700 leading-relaxed italic mb-4">
@@ -47,44 +57,70 @@ export default function AboutPage() {
               opportunities to empower young people to invite friends and
               explore faith together.&quot;
             </p>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 text-sm font-bold">
               — Alpha Australia Problem Statement
             </p>
           </section>
 
           {/* Our Solution */}
-          <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Our Solution
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Where&apos;s Alphi? directly addresses this challenge by creating
-              a gamified, real-world treasure hunt experience that meets
-              teenagers where they are—digitally engaged yet craving authentic,
-              in-person connections.
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Built on the &quot;philosophy of Alpha,&quot; we provide all the
-              resources—the user&apos;s job is simply to bring their friends.
-              This low-barrier invitation model makes evangelism accessible and
-              non-threatening, perfectly suited for how Gen Z naturally shares
-              experiences.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              By combining digital technology with real-world exploration, we
-              tap into the next generation&apos;s growing desire for
-              &quot;higher friction&quot; personalized experiences that create
-              meaningful memories and genuine connection—all while naturally
-              leading them to take the next step with Alpha.
-            </p>
+          <section className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <button
+              onClick={() => setIsSolutionOpen(!isSolutionOpen)}
+              className="w-full p-8 flex items-center justify-between gap-4 text-left hover:bg-gray-50 transition-colors"
+            >
+              <h2 className="text-3xl font-bold text-red-600 flex-1">
+                Our Solution
+              </h2>
+              <ChevronDown
+                className={`h-6 w-6 text-red-600 transition-transform flex-shrink-0 ${
+                  isSolutionOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isSolutionOpen && (
+              <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Where&apos;s Alphi? directly addresses this challenge by creating
+                  a gamified, real-world treasure hunt experience that meets
+                  teenagers where they are—digitally engaged yet craving authentic,
+                  in-person connections.
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Built on the &quot;philosophy of Alpha,&quot; we provide all the
+                  resources—the user&apos;s job is simply to bring their friends.
+                  This low-barrier invitation model makes evangelism accessible and
+                  non-threatening, perfectly suited for how Gen Z naturally shares
+                  experiences.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  By combining digital technology with real-world exploration, we
+                  tap into the next generation&apos;s growing desire for
+                  &quot;higher friction&quot; personalized experiences that create
+                  meaningful memories and genuine connection—all while naturally
+                  leading them to take the next step with Alpha.
+                </p>
+              </div>
+            )}
           </section>
 
           {/* How It Works */}
-          <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              How We Solve It
-            </h2>
-            <div className="space-y-6 text-gray-700">
+          <section className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <button
+              onClick={() => setIsHowWesolveOpen(!isHowWesolveOpen)}
+              className="w-full p-8 flex items-center justify-between gap-4 text-left hover:bg-gray-50 transition-colors"
+            >
+              <h2 className="text-3xl font-bold text-red-600 flex-1">
+                How We Solve It
+              </h2>
+              <ChevronDown
+                className={`h-6 w-6 text-red-600 transition-transform flex-shrink-0 ${
+                  isHowWesolveOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isHowWesolveOpen && (
+              <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
+                <div className="space-y-6 text-gray-700">
               <div className="border-l-4 border-red-200 pl-4">
                 <h3 className="text-xl font-semibold text-red-600 mb-2">
                   Engaging & Relevant to Digital Lives
@@ -180,70 +216,92 @@ export default function AboutPage() {
                   ✓ Sustains engagement through the entire experience
                 </p>
               </div>
-            </div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* The Ultimate Goal */}
-          <section className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              The Funnel: From Digital Discovery to In-Person Alpha
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Where&apos;s Alphi? isn&apos;t just a standalone experience—it&apos;s
-              a carefully designed taster and funnel. <strong>The end of the
-              digital journey is the beginning of the in-person one.</strong>
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              After completing all locations, users receive a clear,
-              natural call to action: experience Alpha in person with the
-              friends they&apos;ve journeyed with. The final location may even
-              be at a local Alpha course venue, creating a seamless bridge from
-              app to community.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              By this point, users have already experienced Alpha&apos;s
-              content, built relationships through the journey, and developed
-              the habit of exploring faith with friends—making the transition to
-              attending Alpha in person feel like the obvious next step, not a
-              leap.
-            </p>
+          <section className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <button
+              onClick={() => setIsFunnelOpen(!isFunnelOpen)}
+              className="w-full p-8 flex items-center justify-between gap-4 text-left hover:bg-gray-50 transition-colors"
+            >
+              <h2 className="text-3xl font-bold text-red-600 flex-1">
+                The Funnel: From Digital Discovery to In-Person Alpha
+              </h2>
+              <ChevronDown
+                className={`h-6 w-6 text-red-600 transition-transform flex-shrink-0 ${
+                  isFunnelOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isFunnelOpen && (
+              <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Where&apos;s Alphi? isn&apos;t just a standalone experience—it&apos;s
+                  a carefully designed taster and funnel. <strong>The end of the
+                  digital journey is the beginning of the in-person one.</strong>
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  After completing all locations, users receive a clear,
+                  natural call to action: experience Alpha in person with the
+                  friends they&apos;ve journeyed with. The final location may even
+                  be at a local Alpha course venue, creating a seamless bridge from
+                  app to community.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  By this point, users have already experienced Alpha&apos;s
+                  content, built relationships through the journey, and developed
+                  the habit of exploring faith with friends—making the transition to
+                  attending Alpha in person feel like the obvious next step, not a
+                  leap.
+                </p>
+              </div>
+            )}
           </section>
 
           {/* Impact Statement */}
-          <section className="bg-red-600 rounded-lg shadow-xl p-8 text-white">
-            <h2 className="text-3xl font-bold mb-4">The Impact</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              Where&apos;s Alphi? solves Alpha Australia&apos;s core
-              challenge: we&apos;ve created a tool that is simultaneously
-              engaging, safe, and relevant to how the next generation lives.
-            </p>
-            <p className="text-lg leading-relaxed mb-4">
-              More importantly, we&apos;ve empowered young people to do what
-              they naturally want to do—invite friends to share meaningful
-              experiences—while removing the intimidation factor from faith
-              conversations.
-            </p>
-            <p className="text-xl leading-relaxed font-semibold">
-              This isn&apos;t just innovation for innovation&apos;s sake.
-              It&apos;s intentional design that meets the next generation where
-              they are and walks with them toward Alpha.
-            </p>
+          <section className="bg-red-600 rounded-lg shadow-xl overflow-hidden text-white">
+            <button
+              onClick={() => setIsImpactOpen(!isImpactOpen)}
+              className="w-full p-8 flex items-center justify-between gap-4 text-left hover:bg-red-700 transition-colors"
+            >
+              <h2 className="text-3xl font-bold text-white flex-1">The Impact</h2>
+              <ChevronDown
+                className={`h-6 w-6 text-white transition-transform flex-shrink-0 ${
+                  isImpactOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isImpactOpen && (
+              <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
+                <p className="text-lg leading-relaxed mb-4">
+                  Where&apos;s Alphi? solves Alpha Australia&apos;s core
+                  challenge: we&apos;ve created a tool that is simultaneously
+                  engaging, safe, and relevant to how the next generation lives.
+                </p>
+                <p className="text-lg leading-relaxed mb-4">
+                  More importantly, we&apos;ve empowered young people to do what
+                  they naturally want to do—invite friends to share meaningful
+                  experiences—while removing the intimidation factor from faith
+                  conversations.
+                </p>
+                <p className="text-xl leading-relaxed font-semibold">
+                  This isn&apos;t just innovation for innovation&apos;s sake.
+                  It&apos;s intentional design that meets the next generation where
+                  they are and walks with them toward Alpha.
+                </p>
+              </div>
+            )}
           </section>
 
           {/* FaithTech Hackathon */}
-          <section className="bg-white rounded-lg shadow-lg p-8">
+          <section className="bg-white rounded-lg shadow-lg p-8 ring ring-yellow-300 text-center">
             <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-shrink-0">
-                <Image
-                  src="/faithtech-logo.svg"
-                  alt="FaithTech Logo"
-                  width={200}
-                  height={200}
-                  className="w-32 h-32 md:w-48 md:h-48 object-contain"
-                />
-              </div>
+              
               <div className="flex-1">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">
                   FaithTech Australian Hackathon 2025
                 </h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
@@ -261,7 +319,7 @@ export default function AboutPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="border-red-600 text-red-600 hover:bg-red-50"
+                    className="border-yellow-300 text-black hover:bg-yellow-50 bg-yellow-300"
                   >
                     <Link href="https://faithtech.com" target="_blank" rel="noopener noreferrer">
                       Learn More About FaithTech

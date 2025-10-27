@@ -29,7 +29,7 @@ export interface Spot {
 }
 
 export interface UserProgress {
-    seed: string;
+    huntCode: string;
     regionKey: string;
     completedSpotIds: string[];
     collectibles: string[];

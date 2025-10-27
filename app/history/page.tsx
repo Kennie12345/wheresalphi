@@ -43,7 +43,7 @@ export default function HistoryPage() {
     if (progress) {
       const region =
         REGIONS.find((r) => r.key === progress.regionKey) || REGIONS[0];
-      const spots = generateSpots(region, progress.seed);
+      const spots = generateSpots(region, progress.huntCode);
 
       setGameState({
         spots,

@@ -34,7 +34,7 @@ export default function TreasureHuntPage() {
     const searchParams = useSearchParams();
     const [gameState, setGameState] = useState<GameState | null>(null);
     const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
-    const [seed, setSeed] = useState<string>('');
+    const [huntCode, setHuntCode] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
     const [showVideoIntro, setShowVideoIntro] = useState(false);
@@ -91,7 +91,7 @@ export default function TreasureHuntPage() {
         if (existingProgress) {
             // Load existing game - use user location if available
             const region = selectedRegion;
-            const spots = generateSpots(region, existingProgress.seed, userLocation || undefined);
+            const spots = generateSpots(region, existingProgress.huntCode, userLocation || undefined);
 
             setGameState({
                 spots,
@@ -100,7 +100,7 @@ export default function TreasureHuntPage() {
                 isCompleted: isGameCompleted(existingProgress),
             });
 
-            setSeed(existingProgress.seed);
+            setHuntCode(existingProgress.huntCode);
             setHasStarted(true);
 
             // Load Alpha venue if completed
@@ -114,22 +114,22 @@ export default function TreasureHuntPage() {
                 console.log('Deep link to spot:', spotId);
             }
         } else {
-            // Generate default seed
-            setSeed(generateDefaultSeed());
+            // Generate default hunt code
+            setHuntCode(generateDefaultHuntCode());
         }
 
         setIsLoading(false);
     }, [searchParams, selectedRegion, userLocation]);
 
-    const generateDefaultSeed = () => {
+    const generateDefaultHuntCode = () => {
         return `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     };
 
     const startNewGame = () => {
         if (!selectedRegion) return;
 
-        const newProgress = initializeProgress(seed, selectedRegion.key);
-        const spots = generateSpots(selectedRegion, seed, userLocation || undefined);
+        const newProgress = initializeProgress(huntCode, selectedRegion.key);
+        const spots = generateSpots(selectedRegion, huntCode, userLocation || undefined);
 
         const newGameState: GameState = {
             spots,
@@ -148,8 +148,8 @@ export default function TreasureHuntPage() {
         setShowVideoIntro(false);
     };
 
-    const regenerateSeed = () => {
-        setSeed(generateDefaultSeed());
+    const regenerateHuntCode = () => {
+        setHuntCode(generateDefaultHuntCode());
     };
 
     const loadAlphaVenue = async (lat: number, lon: number) => {
@@ -188,76 +188,77 @@ export default function TreasureHuntPage() {
 
     if (!hasStarted) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+            <div className="min-h-screen bg-white p-4 font-mono">
                 <div className="max-w-md mx-auto space-y-6 pt-8">
-                    <div className="text-center">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Alfie's Treasure Hunt</h1>
-                        <p className="text-gray-600">Discover 8 hidden spots near you and unlock spiritual treasures!</p>
-                    </div>
+                    <Card className="bg-red-600 border-red-600">
+                        <CardContent className="pt-6 pb-6 space-y-6">
+                            <div className="text-center">
+                                <h1 className="text-3xl font-bold text-white mb-2">Alfie's Treasure Hunt</h1>
+                                <p className="text-white">Discover 8 hidden spots near you and unlock spiritual treasures!</p>
+                            </div>
 
-                    {locationError && (
-                        <Card className="border-red-300 bg-red-50">
-                            <CardContent className="pt-6">
-                                <p className="text-red-600 text-sm">{locationError}</p>
-                                <p className="text-xs text-red-500 mt-2">
-                                    Please enable location access to start the treasure hunt.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    )}
-
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <MapPin className="w-5 h-5" />
-                                Setup Your Hunt
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            {selectedRegion && (
-                                <div className="p-3 bg-blue-50 rounded-md border border-blue-200">
-                                    <p className="text-sm font-medium text-blue-900">
-                                        Treasure hunt area: {selectedRegion.name}
-                                    </p>
-                                    <p className="text-xs text-blue-700 mt-1">
-                                        8 spots within 500m of your location
+                            {locationError && (
+                                <div className="p-4 bg-white rounded-md border border-white">
+                                    <p className="text-black text-sm font-mono">{locationError}</p>
+                                    <p className="text-xs text-black font-mono mt-2">
+                                        Please enable location access to start the treasure hunt.
                                     </p>
                                 </div>
                             )}
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Seed (determines spot locations)
-                                </label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={seed}
-                                        onChange={(e) => setSeed(e.target.value)}
-                                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter custom seed or use generated"
-                                    />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={regenerateSeed}
-                                        className="px-3"
-                                    >
-                                        <RefreshCw className="w-4 h-4" />
-                                    </Button>
+                            <div className="space-y-4">
+                                <div className="text-center">
+                                    <h2 className="text-xl font-bold text-white mb-1 flex items-center justify-center gap-2">
+                                        <MapPin className="w-5 h-5" />
+                                        Setup Your Hunt
+                                    </h2>
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">
-                                    Share the same seed with friends to hunt the same spots!
-                                </p>
-                            </div>
 
-                            <Button
-                                onClick={startNewGame}
-                                className="w-full"
-                                disabled={!seed.trim() || !selectedRegion}
-                            >
-                                Start Treasure Hunt
-                            </Button>
+                                {selectedRegion && (
+                                    <div className="p-3 bg-white rounded-md border border-white">
+                                        <p className="text-sm font-medium text-black font-mono">
+                                            Treasure hunt area: {selectedRegion.name}
+                                        </p>
+                                        <p className="text-xs text-black font-mono mt-1">
+                                            8 spots within 500m of your location
+                                        </p>
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-white font-mono mb-2">
+                                        Hunt Code
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={huntCode}
+                                            onChange={(e) => setHuntCode(e.target.value)}
+                                            className="flex-1 px-3 py-2 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-white text-black font-mono bg-white"
+                                            placeholder="Enter custom hunt code or use generated"
+                                        />
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={regenerateHuntCode}
+                                            className="px-3 bg-white text-black border-white hover:bg-gray-100 font-mono"
+                                        >
+                                            <RefreshCw className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                    <p className="text-xs text-white font-mono mt-1">
+                                        Share this Hunt Code with friends to hunt the same spots!
+                                    </p>
+                                </div>
+
+                                <Button
+                                    onClick={startNewGame}
+                                    className="w-full bg-white text-black hover:bg-gray-100 ring-2 ring-white font-mono font-bold"
+                                    disabled={!huntCode.trim() || !selectedRegion}
+                                >
+                                    Start Treasure Hunt
+                                </Button>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>

@@ -321,7 +321,7 @@ export const SPOT_HISTORIES = [
 
 // Mock data for Alphi's journey - a complete treasure hunt experience
 export const ALPHI_JOURNEY: UserProgress = {
-    seed: 'alphi-demo-2024',
+    huntCode: 'alphi-demo-2024',
     regionKey: 'cbd',
     completedSpotIds: ['spot-1', 'spot-2', 'spot-3', 'spot-4', 'spot-5', 'spot-6', 'spot-7', 'spot-8'],
     collectibles: ['love', 'peace', 'joy', 'hope', 'faith', 'wisdom', 'strength', 'grace'],

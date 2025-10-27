@@ -8,7 +8,19 @@ export function loadProgress(): UserProgress | null {
 
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
-        return stored ? JSON.parse(stored) : null;
+        if (!stored) return null;
+
+        const progress = JSON.parse(stored);
+
+        // Migration: rename 'seed' to 'huntCode' for backwards compatibility
+        if (progress.seed && !progress.huntCode) {
+            progress.huntCode = progress.seed;
+            delete progress.seed;
+            // Save migrated data
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+        }
+
+        return progress;
     } catch (error) {
         console.error('Error loading progress:', error);
         return null;
@@ -27,9 +39,9 @@ export function saveProgress(progress: UserProgress): void {
 }
 
 // Initialize new progress
-export function initializeProgress(seed: string, regionKey: string): UserProgress {
+export function initializeProgress(huntCode: string, regionKey: string): UserProgress {
     return {
-        seed,
+        huntCode,
         regionKey,
         completedSpotIds: [],
         collectibles: [],
