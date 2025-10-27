@@ -49,7 +49,7 @@ export default function Home() {
             WHERE'S ALPHI?
           </h1>
           <p className="text-white mt-2 animate-in fade-in slide-in-from-bottom duration-700 delay-500 uppercase font-semibold tracking-wide">
-            Start your adventure to find Alphi!
+            Start your adventure now!
           </p>
         </div>
               
@@ -57,10 +57,10 @@ export default function Home() {
                 <Button
           asChild
           size="lg"
-          className="text-lg px-8 py-6 shadow-xl w-full bg-white text-black bold hover:bg-gray-50 hover:shadow-2xl"
+          className="text-lg px-8 py-6 shadow-xl w-full bg-white text-red-700 bold hover:bg-gray-50 hover:shadow-2xl"
         >
           <Link 
-href="/places"> <p className="animate animate-pulse transition-all duration-200"           style={{ animationDuration: '3s' }}>START</p></Link>
+href="/places"> <p className="animate font-bold animate-pulse transition-all duration-200"           style={{ animationDuration: '3s' }}> START</p></Link>
         </Button>
 
         <Button

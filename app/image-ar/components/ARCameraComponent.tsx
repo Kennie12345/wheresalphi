@@ -122,7 +122,7 @@ export default function ARCameraComponent({
                 // Calculate AR image size - responsive scaling based on canvas dimensions
                 // Use smaller dimension to ensure it fits in both portrait and landscape
                 const minDimension = Math.min(canvas.width, canvas.height);
-                const baseScale = 0.15; // Start with 15% of the smaller dimension
+                const baseScale = 0.225; // Start with 22.5% of the smaller dimension (50% bigger than original 15%)
 
                 // Calculate dimensions maintaining aspect ratio
                 let arWidth = minDimension * baseScale;
