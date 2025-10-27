@@ -97,6 +97,8 @@ export default function ImageARPage() {
         onPhotoCapture={handlePhotoCapture}
         onCancel={handleCameraCancel}
         theme="wheres-alphi"
+        arOverlayImage="/3dWheresAlphi.png"
+        showAROverlay={true}
       />
     );
   }
@@ -109,7 +111,7 @@ export default function ImageARPage() {
           <h1 className="text-4xl font-bold text-red-600 drop-shadow-lg">
             FIND ALPHI!
           </h1>
-          <p className="text-gray-700 text-lg">
+          <p className="text-black text-lg">
             Take a photo of the location to find Alphi hiding in the scene
           </p>
         </div>
@@ -250,7 +252,7 @@ export default function ImageARPage() {
                 <Button
                   size="lg"
                   onClick={() => setShowShareModal(true)}
-                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all duration-200 shadow-lg animate-in fade-in slide-in-from-bottom duration-500 delay-200"
+                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all delay-200"
                 >
                   <Share2 className="w-5 h-5 mr-2" />
                   Share Your Discovery
@@ -270,7 +272,7 @@ export default function ImageARPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ol className="space-y-3 text-sm text-gray-700">
+              <ol className="space-y-3 text-sm text-white">
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
                     1

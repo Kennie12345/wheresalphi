@@ -1,5 +1,5 @@
 import { Spot, Region } from './types';
-import { VERSES, REFLECTION_PROMPTS, SPOT_THEMES, SPOT_HISTORIES } from './mockData';
+import { VERSES, REFLECTION_PROMPTS, REFLECTION_PROMPTS_BY_THEME, SPOT_THEMES, SPOT_HISTORIES, SPOT_VIDEOS } from './mockData';
 
 // Seeded random number generator for deterministic results
 class SeededRandom {
@@ -85,18 +85,24 @@ function isValidSpot(
 }
 
 // Generate exactly 8 spots with minimum spacing
-export function generateSpots(region: Region, seed: string): Spot[] {
+export function generateSpots(region: Region, seed: string, userLocation?: { lat: number; lon: number }): Spot[] {
     const rng = new SeededRandom(seed + region.key);
     const spots: { lat: number; lon: number }[] = [];
     const maxAttempts = 1000;
     let attempts = 0;
 
+    // If user location is provided, use it as center with smaller radius (500m)
+    // Otherwise, use region center with full radius
+    const centerLat = userLocation?.lat ?? region.center.lat;
+    const centerLon = userLocation?.lon ?? region.center.lon;
+    const radius = userLocation ? 500 : region.radiusM; // 500m radius around user
+
     // Generate 8 valid spots
     while (spots.length < 8 && attempts < maxAttempts) {
         const candidate = generateRandomPointInCircle(
-            region.center.lat,
-            region.center.lon,
-            region.radiusM,
+            centerLat,
+            centerLon,
+            radius,
             rng
         );
 
@@ -109,9 +115,9 @@ export function generateSpots(region: Region, seed: string): Spot[] {
     // If we couldn't generate 8 spots with minimum spacing, fill remaining with best effort
     while (spots.length < 8) {
         const candidate = generateRandomPointInCircle(
-            region.center.lat,
-            region.center.lon,
-            region.radiusM,
+            centerLat,
+            centerLon,
+            radius,
             rng
         );
         spots.push(candidate);
@@ -122,14 +128,17 @@ export function generateSpots(region: Region, seed: string): Spot[] {
         const verseIndex = rng.int(0, VERSES.length - 1);
         const verse = VERSES[verseIndex];
 
-        const prompt1Index = rng.int(0, REFLECTION_PROMPTS.length - 1);
-        let prompt2Index = rng.int(0, REFLECTION_PROMPTS.length - 1);
-        while (prompt2Index === prompt1Index) {
-            prompt2Index = rng.int(0, REFLECTION_PROMPTS.length - 1);
-        }
-
         const spotTheme = SPOT_THEMES[index] || `Discovery Point ${index + 1}`;
         const spotHistory = SPOT_HISTORIES[index];
+
+        // Get theme-specific prompts, or fall back to generic ones
+        const themePrompts = REFLECTION_PROMPTS_BY_THEME[spotTheme] || REFLECTION_PROMPTS;
+
+        // Select all prompts for this theme (typically 4 prompts per theme)
+        const reflectionPrompts = themePrompts.slice(0, 4);
+
+        // Get the video URL for this theme
+        const videoUrl = SPOT_VIDEOS[spotTheme] || 'https://youtube.com/shorts/rDXpvS4klAU?si=7x7cmvI06pdyBKnG';
 
         return {
             id: `spot-${index + 1}`,
@@ -138,11 +147,8 @@ export function generateSpots(region: Region, seed: string): Spot[] {
             title: spotTheme,
             verseRef: verse.ref,
             verse: verse.text,
-            tasterVideoUrl: '/placeholder-video.mp4',
-            reflectionPrompts: [
-                REFLECTION_PROMPTS[prompt1Index],
-                REFLECTION_PROMPTS[prompt2Index],
-            ],
+            tasterVideoUrl: videoUrl,
+            reflectionPrompts: reflectionPrompts,
             history: spotHistory,
         };
     });

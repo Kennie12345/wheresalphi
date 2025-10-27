@@ -13,9 +13,9 @@ import { generateSpots } from '@/lib/treasure-hunt/spotGenerator';
 import { loadProgress, saveProgress, initializeProgress, isGameCompleted } from '@/lib/treasure-hunt/storage';
 import { getNearbyAlphaVenue } from '@/lib/treasure-hunt/api';
 
-import RegionSelector from '@/app/treasure-hunt/components/RegionSelector';
 import ProgressHUD from '@/app/treasure-hunt/components/ProgressHUD';
 import NextStepPanel from '@/app/treasure-hunt/components/NextStepPanel';
+import VideoIntroModal from '@/app/treasure-hunt/components/VideoIntroModal';
 
 // Dynamically import map component to avoid SSR issues
 const TreasureMap = dynamic(() => import('@/app/treasure-hunt/components/TreasureMap'), {
@@ -33,20 +33,65 @@ const TreasureMap = dynamic(() => import('@/app/treasure-hunt/components/Treasur
 export default function TreasureHuntPage() {
     const searchParams = useSearchParams();
     const [gameState, setGameState] = useState<GameState | null>(null);
-    const [selectedRegion, setSelectedRegion] = useState<Region>(REGIONS[0]);
+    const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
     const [seed, setSeed] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
+    const [showVideoIntro, setShowVideoIntro] = useState(false);
+    const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+    const [locationError, setLocationError] = useState<string | null>(null);
+
+    // Get user location on mount
+    useEffect(() => {
+        if (!('geolocation' in navigator)) {
+            setLocationError('Geolocation is not supported by your browser');
+            setIsLoading(false);
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const location = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                };
+                setUserLocation(location);
+
+                // Create a region centered on user's location
+                const userRegion: Region = {
+                    key: 'user-location',
+                    name: 'Your Area',
+                    center: location,
+                    radiusM: 500, // 500m radius around user
+                };
+                setSelectedRegion(userRegion);
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                setLocationError('Unable to get your location. Please enable location access.');
+                // Fallback to default region
+                setSelectedRegion(REGIONS[0]);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 30000,
+            }
+        );
+    }, []);
 
     // Initialize game state
     useEffect(() => {
+        // Wait for region to be set before initializing
+        if (!selectedRegion) return;
+
         const spotId = searchParams.get('spotId');
         const existingProgress = loadProgress();
 
         if (existingProgress) {
-            // Load existing game
-            const region = REGIONS.find(r => r.key === existingProgress.regionKey) || REGIONS[0];
-            const spots = generateSpots(region, existingProgress.seed);
+            // Load existing game - use user location if available
+            const region = selectedRegion;
+            const spots = generateSpots(region, existingProgress.seed, userLocation || undefined);
 
             setGameState({
                 spots,
@@ -55,7 +100,6 @@ export default function TreasureHuntPage() {
                 isCompleted: isGameCompleted(existingProgress),
             });
 
-            setSelectedRegion(region);
             setSeed(existingProgress.seed);
             setHasStarted(true);
 
@@ -75,15 +119,17 @@ export default function TreasureHuntPage() {
         }
 
         setIsLoading(false);
-    }, [searchParams]);
+    }, [searchParams, selectedRegion, userLocation]);
 
     const generateDefaultSeed = () => {
         return `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     };
 
     const startNewGame = () => {
+        if (!selectedRegion) return;
+
         const newProgress = initializeProgress(seed, selectedRegion.key);
-        const spots = generateSpots(selectedRegion, seed);
+        const spots = generateSpots(selectedRegion, seed, userLocation || undefined);
 
         const newGameState: GameState = {
             spots,
@@ -94,7 +140,12 @@ export default function TreasureHuntPage() {
 
         setGameState(newGameState);
         setHasStarted(true);
+        setShowVideoIntro(true); // Show video intro when starting
         saveProgress(newProgress);
+    };
+
+    const handleVideoComplete = () => {
+        setShowVideoIntro(false);
     };
 
     const regenerateSeed = () => {
@@ -119,7 +170,7 @@ export default function TreasureHuntPage() {
         setGameState(newGameState);
 
         // Check if game was just completed
-        if (!gameState?.isCompleted && newGameState.isCompleted) {
+        if (!gameState?.isCompleted && newGameState.isCompleted && selectedRegion) {
             loadAlphaVenue(selectedRegion.center.lat, selectedRegion.center.lon);
         }
     };
@@ -141,8 +192,19 @@ export default function TreasureHuntPage() {
                 <div className="max-w-md mx-auto space-y-6 pt-8">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">Alfie's Treasure Hunt</h1>
-                        <p className="text-gray-600">Discover 8 hidden spots and unlock spiritual treasures!</p>
+                        <p className="text-gray-600">Discover 8 hidden spots near you and unlock spiritual treasures!</p>
                     </div>
+
+                    {locationError && (
+                        <Card className="border-red-300 bg-red-50">
+                            <CardContent className="pt-6">
+                                <p className="text-red-600 text-sm">{locationError}</p>
+                                <p className="text-xs text-red-500 mt-2">
+                                    Please enable location access to start the treasure hunt.
+                                </p>
+                            </CardContent>
+                        </Card>
+                    )}
 
                     <Card>
                         <CardHeader>
@@ -152,11 +214,16 @@ export default function TreasureHuntPage() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <RegionSelector
-                                regions={REGIONS}
-                                selectedRegion={selectedRegion}
-                                onRegionChange={setSelectedRegion}
-                            />
+                            {selectedRegion && (
+                                <div className="p-3 bg-blue-50 rounded-md border border-blue-200">
+                                    <p className="text-sm font-medium text-blue-900">
+                                        Treasure hunt area: {selectedRegion.name}
+                                    </p>
+                                    <p className="text-xs text-blue-700 mt-1">
+                                        8 spots within 500m of your location
+                                    </p>
+                                </div>
+                            )}
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -187,7 +254,7 @@ export default function TreasureHuntPage() {
                             <Button
                                 onClick={startNewGame}
                                 className="w-full"
-                                disabled={!seed.trim()}
+                                disabled={!seed.trim() || !selectedRegion}
                             >
                                 Start Treasure Hunt
                             </Button>
@@ -206,11 +273,21 @@ export default function TreasureHuntPage() {
         );
     }
 
-    return (
-        <div className="min-h-screen bg-gray-50">
-            <ProgressHUD progress={gameState.progress} totalSpots={8} />
+    if (!selectedRegion) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+                    <p className="text-lg">Loading region...</p>
+                </div>
+            </div>
+        );
+    }
 
-            <div className="h-[calc(100vh-80px)]">
+    return (
+        <div className="min-h-screen bg-gray-50 relative">
+            {/* Full-screen map */}
+            <div className="h-screen">
                 <TreasureMap
                     gameState={gameState}
                     onGameStateUpdate={updateGameState}
@@ -218,8 +295,20 @@ export default function TreasureHuntPage() {
                 />
             </div>
 
+            {/* Floating scoreboard overlay */}
+            <ProgressHUD progress={gameState.progress} totalSpots={8} />
+
             {gameState.isCompleted && gameState.alphaVenue && (
                 <NextStepPanel venue={gameState.alphaVenue} />
+            )}
+
+            {/* Video intro modal */}
+            {showVideoIntro && (
+                <VideoIntroModal
+                    onComplete={handleVideoComplete}
+                    videoUrl="https://youtu.be/6EzPs9BcwPM?si=sTvygRnMSqXkPc7j"
+                    showTimer={false}
+                />
             )}
         </div>
     );

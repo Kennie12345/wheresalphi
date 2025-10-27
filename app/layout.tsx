@@ -9,8 +9,14 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Where's Alphi - Treasure Hunt Adventure",
+  description: "Start your adventure to find Alphi in this interactive mobile treasure hunt",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 const geistSans = Geist({
@@ -33,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="mobile-container mx-auto max-w-[480px] min-h-screen">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -69,6 +69,32 @@
 
   body {
     @apply bg-background text-foreground;
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Mobile-first: disable text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Mobile container constraint */
+  .mobile-container {
+    width: 100%;
+    max-width: 480px;
+    /* Ensure fullscreen for AR and map pages */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure all main content respects mobile boundaries */
+  html {
+    overflow-x: hidden;
+  }
+
+  /* Prevent zoom on input focus (iOS) */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 }
 
@@ -85,10 +111,25 @@
 /* Improve popup styling */
 .leaflet-popup-content-wrapper {
   @apply rounded-lg shadow-lg;
+  min-width: 200px !important;
+  max-width: 300px !important;
 }
 
 .leaflet-popup-content {
-  @apply m-2;
+  @apply m-3;
+  min-width: 180px !important;
+}
+
+.leaflet-popup {
+  z-index: 1000 !important;
+}
+
+/* Fix line clamp visibility */
+.line-clamp-2,
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* AR Camera Styles */
@@ -131,4 +172,28 @@
 
 .ar-overlay.interactive {
   pointer-events: auto;
+}
+
+/* Alphi marker with red background */
+.alphi-marker-red {
+  border-radius: 50% !important;
+  background-color: #DC2626 !important;
+  padding: 4px !important;
+  border: 3px solid white !important;
+  box-shadow: 0 0 0 2px black, 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Alphi marker with black background (completed spots) */
+.alphi-marker-black {
+  border-radius: 50% !important;
+  background-color: #000000 !important;
+  padding: 4px !important;
+  border: 3px solid white !important;
+  box-shadow: 0 0 0 2px black, 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Legacy completed marker styling (for backwards compatibility) */
+.completed-marker {
+  background-color: #000000 !important;
+  box-shadow: 0 0 0 2px black, 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }

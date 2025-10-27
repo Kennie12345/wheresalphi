@@ -67,7 +67,9 @@ Open http://localhost:3000 with your browser to see the result.
 Note: The Geolocation API will ask for your permission. For testing location triggers, you can use your browser's developer tools to mock your GPS coordinates.
 
 🧑‍💻 The Hackathon Team
-Ken: Lead Developer (Next.js, shadcn/ui, Core Logic)
-Jillian: Specialist Developer (react-leaflet, GPS Logic)
-Laurence: UI/UX Designer (Wireframes, Visuals)
+Ken: Developer (Next.js, shadcn/ui, Core Logic)
+Jillian: Specialist Developer (react-leaflet, GPS Logic,)
+Laurence: UI/UX Designer Co-Lead (Wireframes, Visuals, Pitch)
+Nicole: UI/UX Designer Co-Lead (Wireframes, Visuals, Pitch)
+Zara: Marketing (Pitch)
 Paul: Project Manager (Pitch, Assets, Testing)

@@ -8,19 +8,28 @@ import { X } from 'lucide-react';
 interface VideoIntroModalProps {
     onComplete: () => void;
     videoUrl?: string;
+    showTimer?: boolean;
     durationSeconds?: number;
 }
 
 export default function VideoIntroModal({
     onComplete,
     videoUrl = 'https://youtube.com/shorts/rDXpvS4klAU?si=7x7cmvI06pdyBKnG',
+    showTimer = false,
     durationSeconds = 30
 }: VideoIntroModalProps) {
     const [timeRemaining, setTimeRemaining] = useState(durationSeconds);
+    const [shouldLoadIframe, setShouldLoadIframe] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Extract YouTube video ID from URL
-    const getYouTubeEmbedUrl = (url: string): string => {
+    // Extract video ID from URL and generate embed URL (supports YouTube and Vimeo)
+    const getVideoEmbedUrl = (url: string): string => {
+        // Handle Vimeo URLs
+        const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+        if (vimeoMatch) {
+            return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&muted=0&controls=1`;
+        }
+
         // Handle youtube.com/shorts/ format
         const shortsMatch = url.match(/youtube\.com\/shorts\/([^?]+)/);
         if (shortsMatch) {
@@ -33,8 +42,8 @@ export default function VideoIntroModal({
             return `https://www.youtube.com/embed/${watchMatch[1]}?autoplay=1&mute=0&controls=1&rel=0`;
         }
 
-        // Handle youtu.be format
-        const youtubeMatch = url.match(/youtu\.be\/([^?]+)/);
+        // Handle youtu.be format (including query params)
+        const youtubeMatch = url.match(/youtu\.be\/([^?&]+)/);
         if (youtubeMatch) {
             return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=1&mute=0&controls=1&rel=0`;
         }
@@ -43,20 +52,25 @@ export default function VideoIntroModal({
     };
 
     useEffect(() => {
-        // Start countdown timer
-        timerRef.current = setInterval(() => {
-            setTimeRemaining((prev) => {
-                if (prev <= 1) {
-                    // Timer finished, trigger completion
-                    if (timerRef.current) {
-                        clearInterval(timerRef.current);
+        // Load iframe immediately when modal appears
+        setShouldLoadIframe(true);
+
+        // Only start countdown timer if showTimer is true
+        if (showTimer) {
+            timerRef.current = setInterval(() => {
+                setTimeRemaining((prev) => {
+                    if (prev <= 1) {
+                        // Timer finished, trigger completion
+                        if (timerRef.current) {
+                            clearInterval(timerRef.current);
+                        }
+                        onComplete();
+                        return 0;
                     }
-                    onComplete();
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
+                    return prev - 1;
+                });
+            }, 1000);
+        }
 
         // Cleanup on unmount
         return () => {
@@ -64,46 +78,64 @@ export default function VideoIntroModal({
                 clearInterval(timerRef.current);
             }
         };
-    }, [onComplete]);
+    }, [onComplete, showTimer]);
 
-    const embedUrl = getYouTubeEmbedUrl(videoUrl);
+    const embedUrl = getVideoEmbedUrl(videoUrl);
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-[9999]">
-            <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden bg-black border-gray-700 relative">
-                {/* Close button */}
+        <div
+            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-[10000]"
+            onClick={onComplete}
+        >
+            <Card
+                className="w-full max-w-2xl max-h-[90vh] overflow-hidden bg-black border-gray-700 relative"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Close button - always visible */}
                 <Button
                     variant="ghost"
                     size="sm"
                     onClick={onComplete}
-                    className="absolute top-4 left-4 h-8 w-8 p-0 bg-black bg-opacity-70 text-white hover:bg-opacity-90 z-50 pointer-events-auto"
+                    className="absolute top-4 right-4 h-10 w-10 p-0 bg-black bg-opacity-70 text-white hover:bg-opacity-90 z-50 pointer-events-auto rounded-full"
                 >
-                    <X className="w-4 h-4" />
+                    <X className="w-5 h-5" />
                 </Button>
 
-                <div className="relative w-full" style={{ paddingBottom: '177.78%', maxHeight: '90vh' }}>
-                    {/* YouTube embed - Shorts aspect ratio is 9:16 (177.78%) */}
-                    <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={embedUrl}
-                        title="Alpha Introduction Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    />
+                <div className="relative w-full" style={{ paddingBottom: '56.25%', maxHeight: '90vh' }}>
+                    {/* Video embed - Standard aspect ratio is 16:9 (56.25%) */}
+                    {shouldLoadIframe ? (
+                        <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src={embedUrl}
+                            title="Alpha Introduction Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
+                    ) : (
+                        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900">
+                            <div className="text-white text-center">
+                                <div className="animate-pulse">Loading video...</div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                {/* Timer overlay */}
-                <div className="absolute top-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {timeRemaining}s
-                </div>
+                {/* Timer overlay - only show if showTimer is true */}
+                {showTimer && (
+                    <>
+                        <div className="absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            {timeRemaining}s
+                        </div>
 
-                {/* Progress bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                    <div
-                        className="h-full bg-blue-500 transition-all duration-1000 ease-linear"
-                        style={{ width: `${((durationSeconds - timeRemaining) / durationSeconds) * 100}%` }}
-                    />
-                </div>
+                        {/* Progress bar */}
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+                            <div
+                                className="h-full bg-blue-500 transition-all duration-1000 ease-linear"
+                                style={{ width: `${((durationSeconds - timeRemaining) / durationSeconds) * 100}%` }}
+                            />
+                        </div>
+                    </>
+                )}
             </Card>
         </div>
     );

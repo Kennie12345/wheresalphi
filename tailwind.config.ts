@@ -10,7 +10,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+  	screens: {
+  		'sm': '480px',
+  		'md': '480px', // Lock to mobile width
+  		'lg': '480px', // Lock to mobile width
+  		'xl': '480px', // Lock to mobile width
+  		'2xl': '480px', // Lock to mobile width
+  	},
   	extend: {
+  		maxWidth: {
+  			'mobile': '480px',
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

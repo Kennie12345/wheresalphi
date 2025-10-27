@@ -17,6 +17,8 @@ interface ARCameraComponentProps {
     onPhotoCapture: (imageDataUrl: string) => void;
     onCancel?: () => void;
     theme?: 'default' | 'wheres-alphi';
+    arOverlayImage?: string; // Path to AR overlay image (e.g., '/ar/alfie-overlay.png')
+    showAROverlay?: boolean; // Toggle AR overlay on/off
 }
 
 interface CameraState {
@@ -30,15 +32,20 @@ interface CameraState {
 export default function ARCameraComponent({
     onPhotoCapture,
     onCancel,
-    theme = 'wheres-alphi'
+    theme = 'wheres-alphi',
+    arOverlayImage = '/ar/alfie-overlay.png',
+    showAROverlay = true
 }: ARCameraComponentProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const displayCanvasRef = useRef<HTMLCanvasElement>(null);
+    const arImageRef = useRef<HTMLImageElement | null>(null);
+    const animationFrameRef = useRef<number | null>(null);
 
     const [cameraState, setCameraState] = useState<CameraState>({
         stream: null,
         isActive: false,
-        facingMode: 'environment',
+        facingMode: 'user',
         error: null,
         isLoading: false,
     });
@@ -46,6 +53,120 @@ export default function ARCameraComponent({
     const [isHttps, setIsHttps] = useState(true);
     const [hasStarted, setHasStarted] = useState(false);
     const [isCapturing, setIsCapturing] = useState(false);
+    const [arImageLoaded, setArImageLoaded] = useState(false);
+
+    // Load AR image
+    useEffect(() => {
+        if (showAROverlay && arOverlayImage) {
+            const img = new window.Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                arImageRef.current = img;
+                setArImageLoaded(true);
+            };
+            img.onerror = () => {
+                console.error('Failed to load AR overlay image');
+                setArImageLoaded(false);
+            };
+            img.src = arOverlayImage;
+        }
+    }, [arOverlayImage, showAROverlay]);
+
+    // AR compositing loop - draws video + AR image to canvas continuously
+    useEffect(() => {
+        if (!cameraState.isActive || !displayCanvasRef.current || !videoRef.current) {
+            return;
+        }
+
+        const canvas = displayCanvasRef.current;
+        const ctx = canvas.getContext('2d', { alpha: false });
+        const video = videoRef.current;
+
+        if (!ctx) return;
+
+        const renderFrame = () => {
+            // Wait for video to be ready
+            if (!video.videoWidth || !video.videoHeight || video.readyState < 2) {
+                animationFrameRef.current = requestAnimationFrame(renderFrame);
+                return;
+            }
+
+            // Set canvas size to match video (only when needed)
+            if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+            }
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Save context state
+            ctx.save();
+
+            // Mirror for front camera
+            if (cameraState.facingMode === 'user') {
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
+
+            // Restore after video draw
+            ctx.restore();
+
+            // Draw AR image if loaded
+            if (showAROverlay && arImageRef.current && arImageLoaded) {
+                const arImage = arImageRef.current;
+
+                // Calculate AR image size (1/5th of screen width)
+                const scale = 0.2; // AR image takes up 20% of canvas width (1/5th)
+                const arWidth = canvas.width * scale;
+                const arHeight = (arImage.height / arImage.width) * arWidth;
+
+                // Position in bottom right corner with padding
+                const padding = 20;
+                const arX = canvas.width - arWidth - padding;
+                const arY = canvas.height - arHeight - padding;
+
+                // Apply bounce animation
+                const time = Date.now() / 1000;
+                const bounceOffset = Math.sin(time * 2) * 5;
+
+                // Draw AR image - preserve transparency
+                ctx.save();
+
+                // Use source-over to properly blend transparent PNGs
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.globalAlpha = 1.0; // Full opacity - let PNG transparency show through
+
+                // Add subtle drop shadow for depth
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetY = 5;
+
+                ctx.drawImage(
+                    arImage,
+                    arX,
+                    arY + bounceOffset,
+                    arWidth,
+                    arHeight
+                );
+
+                ctx.restore();
+            }
+
+            animationFrameRef.current = requestAnimationFrame(renderFrame);
+        };
+
+        renderFrame();
+
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [cameraState.isActive, cameraState.facingMode, showAROverlay, arImageLoaded]);
 
     // Check HTTPS requirement on mount
     useEffect(() => {
@@ -191,26 +312,37 @@ export default function ARCameraComponent({
 
     // Take photo function
     const capturePhoto = () => {
-        if (!videoRef.current || !canvasRef.current) return;
+        // Use the display canvas if AR is enabled, otherwise use video directly
+        const sourceCanvas = displayCanvasRef.current;
+        const canvas = canvasRef.current;
+
+        if (!canvas) return;
 
         setIsCapturing(true);
 
-        const video = videoRef.current;
-        const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-
         if (!ctx) return;
 
-        // Set canvas size
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        // If we have the AR composite canvas, use that
+        if (sourceCanvas && showAROverlay) {
+            canvas.width = sourceCanvas.width;
+            canvas.height = sourceCanvas.height;
+            ctx.drawImage(sourceCanvas, 0, 0);
+        } else if (videoRef.current) {
+            // Fallback to video if no AR canvas
+            const video = videoRef.current;
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
 
-        // Mirror canvas for front camera
-        if (cameraState.facingMode === 'user') {
-            ctx.scale(-1, 1);
-            ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+            // Mirror canvas for front camera
+            if (cameraState.facingMode === 'user') {
+                ctx.scale(-1, 1);
+                ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+            } else {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
         } else {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return;
         }
 
         // Convert to image
@@ -355,12 +487,20 @@ export default function ARCameraComponent({
         <div className={`fixed inset-0 bg-black z-50 ${isCapturing ? 'animate-out fade-out duration-300' : 'animate-in fade-in duration-300'}`}>
             {/* Video display area */}
             <div className="absolute inset-0">
+                {/* Hidden video element (feeds the AR canvas) - must be in DOM but invisible */}
                 <video
                     ref={videoRef}
                     autoPlay
                     playsInline
                     muted
+                    style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+                />
+
+                {/* AR composite canvas - shows video + AR overlay */}
+                <canvas
+                    ref={displayCanvasRef}
                     className="w-full h-full object-cover"
+                    style={{ display: 'block' }}
                 />
 
                 {/* Hidden canvas for photo capture */}
@@ -429,9 +569,9 @@ export default function ARCameraComponent({
                 </div>
             )}
 
-            {/* Camera guide overlay */}
+            {/* Camera guide overlay (optional - can be removed if not needed) */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                <div className="w-64 h-64 border-2 border-red-500 rounded-lg border-dashed opacity-50"></div>
+                <div className="w-64 h-64 border-2 border-red-500 rounded-lg border-dashed opacity-30"></div>
             </div>
 
             {/* Control buttons */}

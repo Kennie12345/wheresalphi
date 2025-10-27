@@ -58,15 +58,68 @@ export const VERSES = [
     },
 ];
 
+// Topic-specific reflection prompts for Alpha Youth Life Essentials themes
+export const REFLECTION_PROMPTS_BY_THEME: Record<string, string[]> = {
+    'Fame': [
+        "When you imagine success, whose approval are you really chasing? Followers? Friends? Family? Or something deeper?",
+        "If all your social media disappeared tomorrow, who would you be? What would give you significance?",
+        "Have you ever felt 'famous' in a small way but still empty inside? What was missing?",
+        "What if true significance isn't about being known BY many people, but being fully known BY someone who truly loves you?"
+    ],
+    'Labels': [
+        "What labels do people stick on you? (Smart, popular, quiet, weird, athlete, nerd...) Which ones hurt most?",
+        "What labels do you put on yourself? Are they helping you or holding you back?",
+        "If God looked at you right now, what do you think He would call you? (Hint: try 'beloved', 'chosen', 'mine')",
+        "What would it feel like to shed the labels that don't serve you and embrace an identity that can't be taken away?"
+    ],
+    'Stress': [
+        "What's stressing you out most right now? School? Relationships? Your future? Family? Something else?",
+        "How do you usually cope when stress hits? Does it actually help, or just numb the pain temporarily?",
+        "What if your stress is actually revealing what you care about most deeply? What's it showing you?",
+        "Have you ever experienced peace that doesn't make logical sense—calm in the middle of chaos? Where do you think that comes from?"
+    ],
+    'Originals': [
+        "When do you feel most like yourself? When do you feel most fake?",
+        "What parts of yourself do you hide because you're afraid people won't accept the real you?",
+        "If you knew you were designed on purpose, for a purpose, by Someone who loves you—would that change how you see yourself?",
+        "What would it look like to stop comparing your Chapter 1 to everyone else's highlight reel and just be YOU?"
+    ],
+    'Ghosting': [
+        "Have you ever been ghosted? How did it feel to be left without explanation or closure?",
+        "Have you ever ghosted someone? Why did you do it? What were you avoiding?",
+        "Why is it so hard to have honest, difficult conversations? What are we really afraid of?",
+        "Jesus promises to never leave you or ghost you—ever. What would relationships look like if we showed that kind of faithfulness to each other?"
+    ],
+    'Future': [
+        "When you think about your future, what emotion comes up? Excitement? Anxiety? Confusion? Hope?",
+        "What are you most afraid will happen in your future? What are you most hoping for?",
+        "Do you feel like your future is in your control, or does it feel like everything's uncertain and out of your hands?",
+        "What if Someone who loves you already knows your future and promises it's full of hope—not perfection, but purpose? How would that change today?"
+    ],
+    'Good & Evil': [
+        "Do you believe in absolute right and wrong, or do you think it's all relative? Why?",
+        "When have you felt the battle between good and evil in your own heart? What did you choose?",
+        "Why is it so hard to do what we know is right sometimes? What gets in the way?",
+        "If everyone has done wrong things (and we have), how do we become good? Can we fix ourselves, or do we need help from outside?"
+    ],
+    'Tribes': [
+        "Who's your tribe? Who are the people you can be fully yourself around?",
+        "Have you ever felt lonely even when surrounded by people? What makes real connection different from just being around others?",
+        "What does healthy community look like? How do you know if your tribe is actually good for you?",
+        "What if you were designed to belong to a tribe that doesn't just accept you as you are, but helps you become who you're meant to be?"
+    ]
+};
+
+// Legacy generic prompts (kept for backward compatibility)
 export const REFLECTION_PROMPTS = [
-    "How does this verse speak to your current situation?",
-    "What does this passage teach you about God's character?",
-    "How can you apply this truth in your daily life?",
-    "What questions does this verse raise for you?",
+    "How does this speak to your current situation?",
+    "What does this teach you about purpose and meaning?",
+    "How can you apply this in your daily life?",
+    "What questions does this raise for you?",
     "How does this relate to your relationships with others?",
     "What does this teach you about faith?",
-    "How can you share this truth with someone this week?",
-    "What does this verse reveal about God's love?",
+    "How can you share this with someone this week?",
+    "What does this reveal about God's love?",
 ];
 
 // Collectible cards that users earn
@@ -160,83 +213,96 @@ export const ALPHA_VENUES: AlphaVenue[] = [
     },
 ];
 
-// Spot titles and themes
+// Spot titles and themes - Alpha Youth Life Essentials Series
 export const SPOT_THEMES = [
-    'Sanctuary of Peace',
-    'Garden of Reflection',
-    'Lighthouse of Hope',
-    'Bridge of Faith',
-    'Harbor of Love',
-    'Tower of Strength',
-    'Crossroads of Wisdom',
-    'Gateway of Grace',
+    'Fame',
+    'Labels',
+    'Stress',
+    'Originals',
+    'Ghosting',
+    'Future',
+    'Good & Evil',
+    'Tribes',
 ];
 
-// Historical and cultural information for each spot theme
+// Video URLs for each theme - from Alpha Life Essentials series
+// Source: https://alphaone.io/life-essentials
+export const SPOT_VIDEOS: Record<string, string> = {
+    'Fame': 'https://vimeo.com/808208490',          // How Ridiculous
+    'Labels': 'https://vimeo.com/808220378',        // Twice Blessed
+    'Stress': 'https://vimeo.com/731343973',        // Ria Panditha
+    'Originals': 'https://vimeo.com/731374634',     // Nicola Olyslagers
+    'Ghosting': 'https://vimeo.com/732898870',      // Adam Przytula
+    'Future': 'https://vimeo.com/808215003',        // How Ridiculous
+    'Good & Evil': 'https://vimeo.com/732842667',   // Isaiah Simmons
+    'Tribes': 'https://vimeo.com/808212945',        // Sam Thompson
+};
+
+// Historical and cultural information for each spot theme - Alpha Youth Life Essentials Series
 export const SPOT_HISTORIES = [
     {
-        theme: 'Sanctuary of Peace',
-        title: 'The Sacred Ground',
-        history: 'This location has been a place of quiet contemplation for generations. In the early 1800s, settlers would gather here for prayer meetings, finding respite from the harsh realities of colonial life. The area was known as a neutral ground where people of different backgrounds could come together in peace.',
-        culturalSignificance: 'Indigenous Australians considered this a meeting place where conflicts were resolved through dialogue. The spirit of reconciliation continues to resonate here today.',
-        interestingFact: 'Local historians discovered that during WWII, this spot was used as a secret meeting place for community leaders organizing support for soldiers and their families.',
-        connections: 'The theme of peace found here connects directly to biblical teachings about being peacemakers and seeking reconciliation with others.'
+        theme: 'Fame',
+        title: 'The Spotlight Square',
+        history: 'This plaza has been Sydney\'s unofficial performance hub since the 1920s. Street performers, aspiring musicians, and artists have used this spot to chase their dreams of recognition. Many famous Australian entertainers began their careers here, busking for coins and hoping someone would notice their talent.',
+        culturalSignificance: 'The square represents the universal human desire to be seen and valued. In the social media age, this historic performance space reminds us that the hunger for recognition isn\'t new—but the platforms have changed.',
+        interestingFact: 'A famous incident in 1978 saw a young musician perform here for 8 hours straight. No one paid attention—until years later when he became an international star. He returned to leave a plaque: "Fame is fleeting, impact is forever."',
+        connections: 'Jesus spoke about seeking praise from people versus seeking God\'s approval. True significance isn\'t found in how many people know your name, but in knowing whose you are and living with purpose beyond the spotlight.'
     },
     {
-        theme: 'Garden of Reflection',
-        title: 'The Hidden Oasis',
-        history: 'Originally designed in 1867 by landscape architect James Norton, this green space was created as a public garden to provide city workers with a place to escape the industrial smog and noise. The garden features heritage-listed fig trees that have witnessed over 150 years of city transformation.',
-        culturalSignificance: 'Victorian-era workers called this "The Lungs of the City." It became a symbol of the balance between progress and preservation, reminding residents to pause and appreciate natural beauty.',
-        interestingFact: 'Hidden beneath one of the oldest trees is a time capsule buried in 1888, containing letters from children describing their hopes for the future of Sydney.',
-        connections: 'Gardens appear throughout scripture as places of encounter with God - from Eden to Gethsemane. This space invites similar moments of reflection and connection.'
+        theme: 'Labels',
+        title: 'The Identity Wall',
+        history: 'This brick wall dates back to 1890 and once displayed colonial-era trade signs labeling businesses and social classes. In the 1960s, activists covered it with protest posters challenging societal labels. Today, it stands as a reminder of how labels—both imposed and chosen—shape our sense of self.',
+        culturalSignificance: 'Throughout history, this wall has reflected society\'s tendency to categorize and label people. From "working class" to "bohemian" to modern identity markers, it shows how labels evolve but the human need to define ourselves remains constant.',
+        interestingFact: 'During the 1980s punk movement, young people would write their "real" names beside their given names on this wall, claiming the right to self-definition. The tradition continues with visitors adding sticky notes about labels they\'re shedding.',
+        connections: 'Scripture reminds us that our true identity comes from being created in God\'s image. Labels from society, family, or even ourselves don\'t define us—God calls us "chosen," "beloved," and "His own." That\'s the label that matters most.'
     },
     {
-        theme: 'Lighthouse of Hope',
-        title: 'The Beacon Point',
-        history: 'While not a physical lighthouse, this elevated location served as a crucial navigation point for early maritime traders in Sydney Harbour. A signal tower stood here from 1820-1890, guiding ships safely to port and saving countless lives from the treacherous rocks below.',
-        culturalSignificance: 'Families of sailors would gather here to watch for returning ships, making it a place of hope and anticipation. The tradition of "keeping the light burning" became a metaphor for maintaining hope during difficult times.',
-        interestingFact: 'During the 1918 Spanish Flu pandemic, health workers used this spot as a viewing point to signal ships about quarantine protocols, quite literally serving as a beacon of public health information.',
-        connections: 'Scripture often uses light as a symbol of hope and divine guidance. Jesus called his followers to be "lights of the world," illuminating the path for others.'
+        theme: 'Stress',
+        title: 'The Breathing Room',
+        history: 'During the 1918 Spanish Flu pandemic and later the Great Depression, this sheltered courtyard became an unofficial "recovery space" where exhausted workers would pause. City planners preserved it in the 1950s, recognizing the need for urban calm amidst growing city stress.',
+        culturalSignificance: 'Mental health advocates in the 1970s turned this into Sydney\'s first public "stress-free zone," where worried residents could sit without judgment. The space symbolizes the timeless need to acknowledge and address life\'s pressures.',
+        interestingFact: 'Recent studies found that sitting in this courtyard for just 10 minutes measurably reduces stress hormones. Something about the design—the acoustics, the airflow, the light—creates a physiological calming effect.',
+        connections: 'Jesus invites the stressed and weary to find rest in Him (Matthew 11:28). Paul writes that God\'s power is made perfect in weakness—when we\'re stressed and struggling, that\'s when we can experience divine strength beyond our own. Our weakness reveals God\'s strength.'
     },
     {
-        theme: 'Bridge of Faith',
-        title: 'The Crossing Point',
-        history: 'This site marks where early settlers built one of Sydney\'s first pedestrian bridges in 1835, connecting two previously isolated communities. The original wooden structure was replaced three times, each iteration representing the community\'s commitment to staying connected despite floods and setbacks.',
-        culturalSignificance: 'The bridge became a powerful symbol of unity and perseverance. Interracial marriages in the 1950s and 60s often featured photographs taken at this bridge, representing the crossing of social divides.',
-        interestingFact: 'An old tradition held that couples who walked across the bridge hand-in-hand while making a promise would have their bond strengthened. The tradition continues among some families today.',
-        connections: 'Faith is described as a bridge between the human and divine, between what is seen and unseen. This physical bridge reminds us that faith connects us across divides we cannot cross alone.'
+        theme: 'Originals',
+        title: 'The Maker\'s Market',
+        history: 'Established in 1856, this was Sydney\'s first artisan market where craftspeople sold handmade, original goods. No mass production—only unique, one-of-a-kind creations. The market became a symbol of authenticity in an increasingly industrialized world.',
+        culturalSignificance: 'The phrase "Accept No Copies" was the market\'s unofficial motto. In a world of conformity and mass production, this space celebrated individuality and original expression. Each item told the story of its maker\'s unique vision.',
+        interestingFact: 'A tradition holds that young apprentices would present their first original work here to receive their mentor\'s blessing. The ceremony symbolized their transition from imitator to creator, from copy to original.',
+        connections: 'Psalm 139 celebrates how God knit each person together uniquely in the womb. You are God\'s original creation—not a copy, not a mistake. Embracing your authentic self means accepting how God designed you, without comparing yourself to others\' highlight reels.'
     },
     {
-        theme: 'Harbor of Love',
-        title: 'The Embrace',
-        history: 'This waterfront location was historically known as "Welcome Cove," where immigrant ships arrived in the 1850s-1950s. Families separated by oceans would reunite here, creating scenes of joy and tears. The area became synonymous with love, reunion, and new beginnings.',
-        culturalSignificance: 'Multiple cultures have blessed this spot with their reunion traditions - Greek families would break plates in celebration, Italian families would share bread, and Chinese families would light incense. It became a multicultural tapestry of love and welcome.',
-        interestingFact: 'A bronze plaque installed in 1963 bears the inscription "Love Knows No Distance" in twelve languages, commemorating the millions of family reunions that occurred here.',
-        connections: 'God\'s love is often described as a welcoming embrace, receiving us home regardless of how far we\'ve wandered. This harbor embodies that unconditional welcome.'
+        theme: 'Ghosting',
+        title: 'The Vanishing Point',
+        history: 'This transit station dates to 1885 when it served as a major departure point. Families would say goodbye here—some farewells were temporary, but many were permanent as people disappeared into new lives overseas, leaving loved ones without word for years or decades.',
+        culturalSignificance: 'The station became associated with the pain of sudden absence and unresolved goodbyes. Letters would arrive addressed to people who\'d "vanished" without explanation. The emotional cost of disappearing—whether forced or chosen—resonates through history.',
+        interestingFact: 'A memorial bench installed in 1963 bears names of people who left through this station and were never heard from again. Families added their names hoping for reunion, creating an unintentional monument to the pain of being left without closure.',
+        connections: 'Scripture values honest communication and reconciliation. "Ghosting" might be modern terminology, but the hurt of abandonment is ancient. Jesus never ghosts us—He promises to never leave or forsake us. We\'re called to show that same faithfulness in our relationships.'
     },
     {
-        theme: 'Tower of Strength',
-        title: 'The Watchtower',
-        history: 'From 1842-1912, a sandstone observation tower stood at this site, serving as a lookout post for approaching ships and potential threats. The tower withstood numerous storms, becoming a symbol of resilience. Though the structure was demolished, the foundation stones remain buried beneath the modern pavement.',
-        culturalSignificance: 'Citizens referred to the tower as "Old Faithful" because it never fell despite weathering some of the worst storms in Sydney\'s history. It became a metaphor for endurance in the face of adversity.',
-        interestingFact: 'During the Great Depression, unemployed workers would gather in the tower\'s shadow to share food and encouragement, transforming it from a defensive structure to a symbol of community strength.',
-        connections: 'The Bible frequently uses towers and fortresses as metaphors for God\'s protective strength. "The name of the Lord is a strong tower; the righteous run to it and are safe."'
+        theme: 'Future',
+        title: 'The Forward Observatory',
+        history: 'Built in 1874, this site housed Sydney\'s first weather observatory, helping people predict and prepare for what was coming. The building represented humanity\'s desire to see beyond the present moment and make wise decisions about the future.',
+        culturalSignificance: 'Citizens would gather here during uncertain times—economic crashes, approaching storms, wartime—seeking information about what lay ahead. The observatory became a symbol of hope that the future, while unknown, doesn\'t have to be feared if we prepare wisely.',
+        interestingFact: 'During WWII, an astronomer working here kept a journal titled "Beyond Tomorrow." He wrote daily entries imagining a peaceful future, reminding himself and others that present darkness doesn\'t determine future outcomes. That journal inspired thousands.',
+        connections: 'Jeremiah 29:11 reminds us that God has plans to give us hope and a future. While we can\'t predict every detail, we can trust the One who holds tomorrow. Living with confidence about the future means trusting God\'s character and promises, taking wise risks guided by faith.'
     },
     {
-        theme: 'Crossroads of Wisdom',
-        title: 'The Meeting of Ways',
-        history: 'This intersection has existed since pre-colonial times as a convergence of Indigenous walking tracks. Later, it became a key junction where European settlers\' roads met, creating a natural gathering place. By the 1880s, it was known as "Speakers\' Corner" where philosophers, preachers, and activists would share ideas.',
-        culturalSignificance: 'The crossroads represented choice and direction. Aboriginal elders would teach young people here about decision-making, while later generations gathered to debate social issues and share knowledge across cultures.',
-        interestingFact: 'A famous incident in 1912 saw suffragette Rose Scott deliver an impassioned speech at this crossroads that helped turn public opinion toward women\'s rights in Australia.',
-        connections: 'Biblical wisdom literature often speaks of standing at the crossroads, choosing the path of wisdom over folly. Every choice we make is a crossroads moment.'
+        theme: 'Good & Evil',
+        title: 'The Justice Steps',
+        history: 'These sandstone steps led to Sydney\'s first courthouse, built in 1820. Every day, people climbed these steps seeking justice—some guilty, some innocent, all facing judgment. The worn stone bears witness to centuries of moral decisions and the eternal tension between right and wrong.',
+        culturalSignificance: 'The steps symbolize the upward struggle toward justice and morality. Aboriginal elders would sit on these steps teaching young people about moral choices. Later, civil rights activists stood here demanding justice. The space represents humanity\'s universal moral consciousness.',
+        interestingFact: 'A tradition emerged where people making difficult ethical decisions would walk up and down these steps while contemplating. The physical ascent symbolized the moral "high ground" they were seeking. Many report finding clarity during these walks.',
+        connections: 'Romans 3:23 reminds us that all have sinned and fallen short of God\'s glory. The battle between good and evil isn\'t just "out there"—it\'s within each human heart. Only through God\'s transforming grace can we choose good over evil, light over darkness.'
     },
     {
-        theme: 'Gateway of Grace',
-        title: 'The Portal',
-        history: 'This location marked the entrance to the historic Domain precinct, established in 1810. Ornate iron gates installed in 1871 welcomed visitors into the public gardens, regardless of social class - a revolutionary concept at the time. The gates bore the inscription "Free to All" in gold lettering.',
-        culturalSignificance: 'The open gates symbolized democratic access and equal dignity. During the 1890s depression, the gates remained open 24/7 so homeless families could shelter in the gardens, embodying practical grace and hospitality.',
-        interestingFact: 'When the original gates were damaged in a storm in 1924, citizens donated their own iron railings and jewelry to be melted down for repairs, determined to preserve this symbol of open access.',
-        connections: 'Grace is God\'s unmerited favor - a free gift available to all who enter through faith. Like these gates, divine grace welcomes everyone, regardless of status or background.'
+        theme: 'Tribes',
+        title: 'The Gathering Ground',
+        history: 'For thousands of years before European settlement, this was a meeting place for Indigenous tribes who would gather for ceremony, trade, and relationship-building. Post-colonization, it became a community hub where immigrant groups established cultural associations, creating new "tribes" of belonging.',
+        culturalSignificance: 'The ground represents humanity\'s fundamental need for community and belonging. Every generation has gathered here seeking connection—from ancient tribal ceremonies to modern community groups. We are hardwired for tribe, for people who know us and have our backs.',
+        interestingFact: 'An anthropologist studying the site in 1925 noted that every culture that gathered here had the same ritual: sharing food together as a sign of welcome and acceptance. From Indigenous corroborees to immigrant potlucks, breaking bread created belonging.',
+        connections: 'Ecclesiastes 4:9-10 teaches that two are better than one—if one falls, the other lifts them up. The early church thrived as a tribe of believers who shared life together. God designed us for community, and finding your tribe means finding people who point you toward Him and walk alongside you in faith.'
     }
 ];
 
