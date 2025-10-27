@@ -14,7 +14,10 @@ import {
   MessageCircle,
   Navigation,
   Sparkles,
-  TrendingUp,
+  History,
+  Award,
+  Camera,
+  Timer,
 } from "lucide-react";
 import { GameState, Spot, Reflection } from "@/lib/treasure-hunt/types";
 import { loadProgress } from "@/lib/treasure-hunt/storage";
@@ -120,16 +123,19 @@ export default function HistoryPage() {
 
   if (!gameState || visitHistory.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+      <div className="min-h-screen bg-black p-4">
         <div className="max-w-4xl mx-auto pt-8">
-          <Card>
+          <Card className="bg-white border-red-600 border-2">
             <CardContent className="flex flex-col items-center justify-center py-12">
-              <Clock className="w-16 h-16 text-gray-400 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">No Visit History</h2>
-              <p className="text-gray-600 mb-6 text-center">
+              <History className="w-16 h-16 text-red-600 mb-4 animate-pulse" />
+              <h2 className="text-2xl font-bold mb-2 text-black">No Visit History</h2>
+              <p className="text-gray-700 mb-6 text-center">
                 Complete some treasure hunt locations to see your history!
               </p>
-              <Button onClick={() => (window.location.href = "/places")}>
+              <Button
+                onClick={() => (window.location.href = "/places")}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
                 Start Exploring
               </Button>
             </CardContent>
@@ -149,66 +155,70 @@ export default function HistoryPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+    <div className="min-h-screen bg-black p-4">
       <div className="max-w-4xl mx-auto space-y-6 pt-8 pb-8">
         {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Your Journey History
+        <div className="text-center animate-in fade-in slide-in-from-top duration-700">
+          <h1 className="text-3xl md:text-4xl font-bold text-red-600 drop-shadow-lg mb-2">
+            YOUR JOURNEY HISTORY
           </h1>
-          <p className="text-gray-600">
+          <p className="text-white">
             A timeline of your treasure hunt adventures
           </p>
         </div>
 
         {/* Stats Summary Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-blue-500" />
+        <Card className="bg-white border-red-600 border-2 animate-in fade-in slide-in-from-bottom duration-700">
+          <CardHeader className="bg-red-600">
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Award className="w-5 h-5" />
               Journey Stats
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">
+              <div className="text-center p-4 bg-red-50 rounded-lg border-2 border-red-200 hover:border-red-600 transition-all hover:scale-105">
+                <MapPin className="w-6 h-6 text-red-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-red-600">
                   {visitHistory.length}
                 </div>
-                <div className="text-xs text-gray-600 mt-1">
+                <div className="text-xs text-gray-700 mt-1 font-medium">
                   Locations Visited
                 </div>
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">
+              <div className="text-center p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-red-600 transition-all hover:scale-105">
+                <Timer className="w-6 h-6 text-black mx-auto mb-2" />
+                <div className="text-2xl font-bold text-black">
                   {totalTimeSpent}
                 </div>
-                <div className="text-xs text-gray-600 mt-1">
+                <div className="text-xs text-gray-700 mt-1 font-medium">
                   Minutes Exploring
                 </div>
               </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">
+              <div className="text-center p-4 bg-red-50 rounded-lg border-2 border-red-200 hover:border-red-600 transition-all hover:scale-105">
+                <BookOpen className="w-6 h-6 text-red-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-red-600">
                   {visitHistory.filter((v) => v.reflection).length}
                 </div>
-                <div className="text-xs text-gray-600 mt-1">
+                <div className="text-xs text-gray-700 mt-1 font-medium">
                   Reflections Written
                 </div>
               </div>
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">
+              <div className="text-center p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-red-600 transition-all hover:scale-105">
+                <Camera className="w-6 h-6 text-black mx-auto mb-2" />
+                <div className="text-2xl font-bold text-black">
                   {totalPhotos}
                 </div>
-                <div className="text-xs text-gray-600 mt-1">Photos Taken</div>
+                <div className="text-xs text-gray-700 mt-1 font-medium">Photos Taken</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Timeline Header */}
-        <div className="flex items-center gap-2 px-4">
-          <Clock className="w-5 h-5 text-gray-600" />
-          <h2 className="text-xl font-semibold text-gray-900">
+        <div className="flex items-center gap-2 px-4 animate-in fade-in slide-in-from-left duration-700">
+          <History className="w-5 h-5 text-red-600" />
+          <h2 className="text-xl font-semibold text-white">
             Visit Timeline
           </h2>
         </div>
@@ -216,7 +226,7 @@ export default function HistoryPage() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-300 via-purple-300 to-blue-300 hidden md:block" />
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-600 via-red-400 to-red-600 hidden md:block" />
 
           <div className="space-y-6">
             {visitHistory.map((visit, index) => {
@@ -225,25 +235,29 @@ export default function HistoryPage() {
                 : null;
 
               return (
-                <div key={visit.spot.id} className="relative">
+                <div
+                  key={visit.spot.id}
+                  className="relative animate-in fade-in slide-in-from-right duration-700"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   {/* Timeline dot */}
-                  <div className="absolute left-6 top-6 w-5 h-5 rounded-full bg-blue-500 border-4 border-white shadow-md hidden md:block z-10" />
+                  <div className="absolute left-6 top-6 w-5 h-5 rounded-full bg-red-600 border-4 border-white shadow-lg hidden md:block z-10 animate-pulse" />
 
-                  <Card className="md:ml-16 hover:shadow-lg transition-shadow">
-                    <CardHeader className="pb-3">
+                  <Card className="md:ml-16 hover:shadow-2xl transition-all hover:scale-[1.02] bg-white border-2 border-gray-200 hover:border-red-600">
+                    <CardHeader className="pb-3 bg-gradient-to-r from-red-50 to-white">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <MapPin className="w-4 h-4 text-blue-600" />
-                            <CardTitle className="text-lg">
+                            <MapPin className="w-4 h-4 text-red-600" />
+                            <CardTitle className="text-lg text-black">
                               {visit.spot.title}
                             </CardTitle>
                           </div>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-700 font-medium">
                             {visit.spot.verseRef}
                           </p>
                         </div>
-                        <Badge variant="outline" className="flex-shrink-0">
+                        <Badge variant="outline" className="flex-shrink-0 border-red-600 text-red-600">
                           Visit #{visitHistory.length - index}
                         </Badge>
                       </div>
@@ -251,61 +265,50 @@ export default function HistoryPage() {
 
                     <CardContent className="space-y-4">
                       {/* Visit Details */}
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-700">
+                        <div className="flex items-center gap-1 font-medium">
+                          <Calendar className="w-4 h-4 text-red-600" />
                           <span>{formatDate(visit.completedAt)}</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
+                        <div className="flex items-center gap-1 font-medium">
+                          <Clock className="w-4 h-4 text-red-600" />
                           <span>{formatTime(visit.completedAt)}</span>
                         </div>
                         {visit.timeSpent && (
-                          <div className="flex items-center gap-1">
-                            <Navigation className="w-4 h-4" />
+                          <div className="flex items-center gap-1 font-medium">
+                            <Timer className="w-4 h-4 text-red-600" />
                             <span>{visit.timeSpent} min spent</span>
                           </div>
                         )}
                         {visit.photoCount && visit.photoCount > 0 && (
-                          <div className="flex items-center gap-1">
-                            <ImageIcon className="w-4 h-4" />
+                          <div className="flex items-center gap-1 font-medium">
+                            <Camera className="w-4 h-4 text-red-600" />
                             <span>{visit.photoCount} photos</span>
                           </div>
                         )}
                       </div>
 
                       {/* Bible Verse */}
-                      <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                      <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-600">
                         <p className="text-sm text-gray-800 italic">
                           "{visit.spot.verse}"
                         </p>
-                        <p className="text-xs text-gray-600 mt-2 font-medium">
+                        <p className="text-xs text-gray-700 mt-2 font-bold">
                           — {visit.spot.verseRef}
                         </p>
                       </div>
 
                       {/* Collectible Earned */}
                       {collectible && (
-                        <div
-                          className="flex items-center gap-3 p-3 rounded-lg border-2"
-                          style={{ borderColor: collectible.color + "40" }}
-                        >
-                          <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                            style={{
-                              backgroundColor: collectible.color + "20",
-                            }}
-                          >
-                            <Sparkles
-                              className="w-5 h-5"
-                              style={{ color: collectible.color }}
-                            />
+                        <div className="flex items-center gap-3 p-3 rounded-lg border-2 border-red-200 bg-red-50 hover:border-red-600 transition-all">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-red-600">
+                            <Sparkles className="w-5 h-5 text-white" />
                           </div>
                           <div className="flex-1">
-                            <div className="text-sm font-semibold">
+                            <div className="text-sm font-semibold text-black">
                               Collectible Earned: {collectible.name}
                             </div>
-                            <div className="text-xs text-gray-600">
+                            <div className="text-xs text-gray-700">
                               {collectible.description}
                             </div>
                           </div>
@@ -314,10 +317,10 @@ export default function HistoryPage() {
 
                       {/* Reflection */}
                       {visit.reflection && (
-                        <div className="bg-white p-4 rounded-lg border-2 border-purple-200">
+                        <div className="bg-white p-4 rounded-lg border-2 border-red-200 hover:border-red-600 transition-all">
                           <div className="flex items-center gap-2 mb-2">
-                            <BookOpen className="w-4 h-4 text-purple-600" />
-                            <span className="text-sm font-semibold text-purple-900">
+                            <BookOpen className="w-4 h-4 text-red-600" />
+                            <span className="text-sm font-semibold text-black">
                               My Reflection
                             </span>
                           </div>
@@ -329,15 +332,27 @@ export default function HistoryPage() {
 
                       {/* Action Buttons */}
                       <div className="flex gap-2 pt-2">
-                        <Button variant="ghost" size="sm" className="flex-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+                        >
                           <Heart className="w-4 h-4 mr-1" />
                           Favorite
                         </Button>
-                        <Button variant="ghost" size="sm" className="flex-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+                        >
                           <MessageCircle className="w-4 h-4 mr-1" />
                           Add Note
                         </Button>
-                        <Button variant="ghost" size="sm" className="flex-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+                        >
                           <Navigation className="w-4 h-4 mr-1" />
                           View on Map
                         </Button>
@@ -352,10 +367,11 @@ export default function HistoryPage() {
 
         {/* Continue Journey Button */}
         {gameState.progress.completedSpotIds.length < 8 && (
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center pt-4 animate-in fade-in slide-in-from-bottom duration-700">
             <Button
               size="lg"
               onClick={() => (window.location.href = "/places")}
+              className="bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all"
             >
               <MapPin className="w-4 h-4 mr-2" />
               Continue Your Journey
