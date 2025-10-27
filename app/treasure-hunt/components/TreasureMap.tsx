@@ -291,23 +291,23 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                             }}
                         >
                             <Tooltip direction="top" offset={[0, -40]} opacity={0.95} permanent={false}>
-                                <div className="text-center">
-                                    <p className="font-bold text-sm text-red-600 mb-1">{spot.title}</p>
+                                <div className="text-left">
+                                    <p className="font-bold text-sm text-red-600 mb-1.5">{spot.title}</p>
                                     {spot.history && (
                                         <>
                                             <p className="text-xs text-gray-700 mb-1 font-semibold">{spot.history.theme}</p>
                                             {THEME_BLURBS[spot.history.theme] && (
-                                                <p className="text-xs text-gray-600 mb-2 leading-relaxed max-w-xs">
+                                                <p className="text-xs text-gray-600 mb-2 leading-relaxed">
                                                     {THEME_BLURBS[spot.history.theme]}
                                                 </p>
                                             )}
                                         </>
                                     )}
                                     {distanceText && (
-                                        <p className="text-xs text-red-600 font-medium">📍 {distanceText}</p>
+                                        <p className="text-xs text-red-600 font-medium mt-2">📍 {distanceText}</p>
                                     )}
                                     {isSpotCompleted(spot.id) && (
-                                        <p className="text-xs text-green-600 font-semibold mt-1">✓ Completed</p>
+                                        <p className="text-xs text-green-600 font-semibold mt-1.5">✓ Completed</p>
                                     )}
                                 </div>
                             </Tooltip>

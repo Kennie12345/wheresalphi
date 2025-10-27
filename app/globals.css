@@ -128,8 +128,33 @@
 .leaflet-tooltip {
   z-index: 1050 !important;
   @apply bg-white rounded-lg shadow-xl border-2 border-red-600;
-  padding: 8px 12px !important;
+  padding: 12px !important;
   font-family: inherit !important;
+  width: 280px !important;
+  max-width: 280px !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+/* Webkit scrollbar styling for tooltips */
+.leaflet-tooltip::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaflet-tooltip::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.leaflet-tooltip::-webkit-scrollbar-thumb {
+  background: #DC2626;
+  border-radius: 3px;
+}
+
+.leaflet-tooltip::-webkit-scrollbar-thumb:hover {
+  background: #B91C1C;
 }
 
 .leaflet-tooltip-top:before {
