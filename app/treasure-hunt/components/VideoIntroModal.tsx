@@ -10,13 +10,15 @@ interface VideoIntroModalProps {
     videoUrl?: string;
     showTimer?: boolean;
     durationSeconds?: number;
+    spotTheme?: string;
 }
 
 export default function VideoIntroModal({
     onComplete,
     videoUrl = 'https://youtube.com/shorts/rDXpvS4klAU?si=7x7cmvI06pdyBKnG',
     showTimer = false,
-    durationSeconds = 30
+    durationSeconds = 30,
+    spotTheme
 }: VideoIntroModalProps) {
     const [timeRemaining, setTimeRemaining] = useState(durationSeconds);
     const [shouldLoadIframe, setShouldLoadIframe] = useState(false);
@@ -135,6 +137,16 @@ export default function VideoIntroModal({
                             />
                         </div>
                     </>
+                )}
+
+                {/* Topic Label - bottom right corner */}
+                {spotTheme && (
+                    <div className="absolute bottom-2 right-2 bg-red-600 bg-opacity-90 text-white px-3 py-1.5 rounded-lg text-xs font-bold font-mono shadow-lg flex items-center gap-1 uppercase">
+                        <div className="w-4 h-4 rounded-full border border-white flex items-center justify-center flex-shrink-0">
+                            <span className="text-white text-xs leading-none">?</span>
+                        </div>
+                        {spotTheme}
+                    </div>
                 )}
             </Card>
         </div>

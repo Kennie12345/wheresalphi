@@ -372,6 +372,7 @@ export default function SpotModal({ spot, gameState, onGameStateUpdate, onClose,
                     onComplete={() => setShowVideoIntro(false)}
                     videoUrl={spot.tasterVideoUrl || "https://youtube.com/shorts/rDXpvS4klAU?si=7x7cmvI06pdyBKnG"}
                     showTimer={false}
+                    spotTheme={spot.history?.theme}
                 />
             )}
         </div>

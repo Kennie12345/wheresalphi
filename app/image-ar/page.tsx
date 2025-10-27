@@ -104,33 +104,33 @@ export default function ImageARPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-blue-50 to-purple-50 p-4">
+    <div className="min-h-screen bg-red-600 p-4">
       <div className="max-w-2xl mx-auto pt-8 space-y-6">
         {/* Header */}
         <div className="text-center space-y-2 animate-in fade-in slide-in-from-top duration-500">
-          <h1 className="text-4xl font-bold text-red-600 drop-shadow-lg">
+          <h1 className="text-4xl font-bold text-white drop-shadow-lg">
             FIND ALPHI!
           </h1>
-          <p className="text-black text-lg">
+          <p className="text-white text-lg">
             Take a photo of the location to find Alphi hiding in the scene
           </p>
         </div>
 
         {/* Main AR Card */}
-        <Card className="animate-in fade-in slide-in-from-bottom duration-700">
+        <Card className="animate-in fade-in slide-in-from-bottom duration-700 bg-white border-2 border-black">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-black">
               <Camera className="w-5 h-5 text-red-600" />
               AR Photo Finder
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-black">
               Capture the moment and we'll reveal where Alphi is hiding!
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
             {/* Image Preview Area */}
-            <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden border-2 border-dashed border-gray-300">
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden border-2 border-dashed border-black">
               {capturedImage ? (
                 <>
                   <Image
@@ -188,7 +188,7 @@ export default function ImageARPage() {
                   )}
                 </>
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                   <Camera className="w-16 h-16 mb-2" />
                   <p className="text-sm">No image captured yet</p>
                 </div>
@@ -201,7 +201,7 @@ export default function ImageARPage() {
                 <Button
                   size="lg"
                   onClick={handleUseCameraClick}
-                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all duration-200"
+                  className="w-full bg-white border-2 border-red-600 text-black hover:bg-red-600 hover:text-white hover:scale-105 transition-all duration-200"
                 >
                   <Camera className="w-5 h-5 mr-2" />
                   Use Camera
@@ -211,7 +211,7 @@ export default function ImageARPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full border-red-600 text-red-600 hover:bg-red-50 hover:scale-105 transition-all duration-200"
+                    className="w-full bg-white border-2 border-black text-black hover:bg-black hover:text-white hover:scale-105 transition-all duration-200"
                     asChild
                   >
                     <div>
@@ -234,14 +234,14 @@ export default function ImageARPage() {
             {/* Success Message & Actions */}
             {arComplete && (
               <div className="space-y-3">
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 animate-in fade-in slide-in-from-bottom duration-500">
+                <div className="bg-white border-2 border-black rounded-lg p-4 animate-in fade-in slide-in-from-bottom duration-500">
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-semibold text-green-900 mb-1">
+                      <h3 className="font-semibold text-black mb-1">
                         You Found Alphi!
                       </h3>
-                      <p className="text-sm text-green-800">
+                      <p className="text-sm text-black">
                         Great job! Alphi was hiding in this location. Share your discovery with friends!
                       </p>
                     </div>
@@ -252,7 +252,7 @@ export default function ImageARPage() {
                 <Button
                   size="lg"
                   onClick={() => setShowShareModal(true)}
-                  className="w-full bg-red-600 hover:bg-red-700 hover:scale-105 transition-all delay-200"
+                  className="w-full bg-white border-2 border-red-600 text-black hover:bg-red-600 hover:text-white hover:scale-105 transition-all delay-200"
                 >
                   <Share2 className="w-5 h-5 mr-2" />
                   Share Your Discovery
@@ -264,22 +264,22 @@ export default function ImageARPage() {
 
         {/* Instructions Card */}
         {!capturedImage && cameraMode === 'intro' && (
-          <Card className="animate-in fade-in slide-in-from-bottom duration-700 delay-300">
+          <Card className="animate-in fade-in slide-in-from-bottom duration-700 delay-300 bg-white border-2 border-black">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
+              <CardTitle className="text-lg flex items-center gap-2 text-black">
                 <Sparkles className="w-5 h-5 text-red-600" />
                 How it works
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ol className="space-y-3 text-sm text-white">
+              <ol className="space-y-3 text-sm">
                 <li className="flex items-start gap-3">
                   <span className="flex-shrink-0 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
                     1
                   </span>
                   <div>
-                    <p className="font-semibold text-gray-900">Capture or Upload</p>
-                    <p className="text-gray-600">Take a photo with your camera or upload an existing photo of the location</p>
+                    <p className="font-semibold text-black">Capture or Upload</p>
+                    <p className="text-black">Take a photo with your camera or upload an existing photo of the location</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -287,8 +287,8 @@ export default function ImageARPage() {
                     2
                   </span>
                   <div>
-                    <p className="font-semibold text-gray-900">AR Detection</p>
-                    <p className="text-gray-600">Our AR technology will analyze the image to find where Alphi is hiding</p>
+                    <p className="font-semibold text-black">AR Detection</p>
+                    <p className="text-black">Our AR technology will analyze the image to find where Alphi is hiding</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -296,8 +296,8 @@ export default function ImageARPage() {
                     3
                   </span>
                   <div>
-                    <p className="font-semibold text-gray-900">Share & Celebrate</p>
-                    <p className="text-gray-600">Share your discovery with friends and view your complete journey history!</p>
+                    <p className="font-semibold text-black">Share & Celebrate</p>
+                    <p className="text-black">Share your discovery with friends and view your complete journey history!</p>
                   </div>
                 </li>
               </ol>

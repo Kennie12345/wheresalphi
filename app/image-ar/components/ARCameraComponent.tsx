@@ -119,15 +119,36 @@ export default function ARCameraComponent({
             if (showAROverlay && arImageRef.current && arImageLoaded) {
                 const arImage = arImageRef.current;
 
-                // Calculate AR image size (1/5th of screen width)
-                const scale = 0.2; // AR image takes up 20% of canvas width (1/5th)
-                const arWidth = canvas.width * scale;
-                const arHeight = (arImage.height / arImage.width) * arWidth;
+                // Calculate AR image size - responsive scaling based on canvas dimensions
+                // Use smaller dimension to ensure it fits in both portrait and landscape
+                const minDimension = Math.min(canvas.width, canvas.height);
+                const baseScale = 0.15; // Start with 15% of the smaller dimension
 
-                // Position in bottom right corner with padding
-                const padding = 20;
-                const arX = canvas.width - arWidth - padding;
-                const arY = canvas.height - arHeight - padding;
+                // Calculate dimensions maintaining aspect ratio
+                let arWidth = minDimension * baseScale;
+                let arHeight = (arImage.height / arImage.width) * arWidth;
+
+                // Apply maximum size constraints to prevent oversized images
+                const maxWidth = canvas.width * 0.25; // Never exceed 25% of canvas width
+                const maxHeight = canvas.height * 0.25; // Never exceed 25% of canvas height
+
+                if (arWidth > maxWidth) {
+                    arWidth = maxWidth;
+                    arHeight = (arImage.height / arImage.width) * arWidth;
+                }
+
+                if (arHeight > maxHeight) {
+                    arHeight = maxHeight;
+                    arWidth = (arImage.width / arImage.height) * arHeight;
+                }
+
+                // Responsive padding based on canvas size (3% of dimension with minimum)
+                const paddingX = Math.max(canvas.width * 0.03, 15);
+                const paddingY = Math.max(canvas.height * 0.03, 15);
+
+                // Position in bottom right corner with responsive padding
+                const arX = canvas.width - arWidth - paddingX;
+                const arY = canvas.height - arHeight - paddingY;
 
                 // Apply bounce animation
                 const time = Date.now() / 1000;
@@ -381,26 +402,26 @@ export default function ARCameraComponent({
     // HTTPS check screen
     if (!isHttps) {
         return (
-            <div className="fixed inset-0 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4 z-50 animate-in fade-in duration-500">
-                <Card className="max-w-md p-6">
+            <div className="fixed inset-0 bg-red-600 flex items-center justify-center p-4 z-50 animate-in fade-in duration-500">
+                <Card className="max-w-md p-6 bg-white border-2 border-black">
                     <div className="flex items-center gap-2 mb-4">
                         <Shield className="w-6 h-6 text-red-600" />
-                        <h2 className="text-xl font-bold text-red-700">HTTPS Required</h2>
+                        <h2 className="text-xl font-bold text-black">HTTPS Required</h2>
                     </div>
                     <div className="space-y-4">
-                        <p className="text-gray-700">
+                        <p className="text-black">
                             Camera access requires a secure connection (HTTPS) for security reasons.
                         </p>
-                        <div className="bg-red-50 p-3 rounded-lg border border-red-200">
-                            <p className="text-sm text-red-700 font-medium">
+                        <div className="bg-black p-3 rounded-lg border border-black">
+                            <p className="text-sm text-white font-medium">
                                 Current: {typeof window !== 'undefined' ? window.location.protocol : 'unknown'}
                             </p>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-black">
                             Please access this page via HTTPS or use localhost for development.
                         </p>
                         {onCancel && (
-                            <Button onClick={handleCancel} variant="outline" className="w-full">
+                            <Button onClick={handleCancel} variant="outline" className="w-full border-black text-black hover:bg-black hover:text-white">
                                 Go Back
                             </Button>
                         )}
@@ -413,23 +434,23 @@ export default function ARCameraComponent({
     // Permission/Start screen
     if (!hasStarted) {
         return (
-            <div className="fixed inset-0 bg-gradient-to-br from-red-50 via-blue-50 to-purple-50 flex items-center justify-center p-4 z-50 animate-in fade-in duration-500">
-                <Card className="max-w-md p-6">
+            <div className="fixed inset-0 bg-red-600 flex items-center justify-center p-4 z-50 animate-in fade-in duration-500">
+                <Card className="max-w-md p-6 bg-white border-2 border-black">
                     <div className="flex items-center gap-2 mb-4">
                         <Camera className="w-6 h-6 text-red-600" />
-                        <h2 className="text-xl font-bold text-red-600">Find Alphi Camera</h2>
+                        <h2 className="text-xl font-bold text-black">Find Alphi Camera</h2>
                     </div>
                     <div className="space-y-4">
-                        <p className="text-gray-700">
+                        <p className="text-black">
                             Use your camera to capture the location where Alphi is hiding!
                         </p>
 
-                        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-                            <h4 className="font-semibold text-red-900 mb-2 flex items-center gap-2">
+                        <div className="bg-black p-4 rounded-lg border border-black">
+                            <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
                                 <Sparkles className="w-4 h-4" />
                                 Camera Features:
                             </h4>
-                            <ul className="text-sm text-red-800 space-y-1">
+                            <ul className="text-sm text-white space-y-1">
                                 <li>• Live camera preview</li>
                                 <li>• Switch between front/back camera</li>
                                 <li>• High-quality photo capture</li>
@@ -438,8 +459,8 @@ export default function ARCameraComponent({
                         </div>
 
                         {cameraState.error && (
-                            <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                                <p className="text-sm text-orange-800">{cameraState.error}</p>
+                            <div className="bg-white p-3 rounded-lg border-2 border-black">
+                                <p className="text-sm text-black">{cameraState.error}</p>
                             </div>
                         )}
 
@@ -448,7 +469,7 @@ export default function ARCameraComponent({
                                 <Button
                                     onClick={handleCancel}
                                     variant="outline"
-                                    className="flex-1"
+                                    className="flex-1 bg-white border-2 border-black text-black hover:bg-black hover:text-white"
                                 >
                                     Cancel
                                 </Button>
@@ -456,7 +477,7 @@ export default function ARCameraComponent({
                             <Button
                                 onClick={startCamera}
                                 disabled={cameraState.isLoading}
-                                className={`flex-1 ${primaryClass}`}
+                                className="flex-1 bg-white border-2 border-red-600 text-black hover:bg-red-600 hover:text-white"
                                 size="lg"
                             >
                                 {cameraState.isLoading ? (
@@ -473,7 +494,7 @@ export default function ARCameraComponent({
                             </Button>
                         </div>
 
-                        <p className="text-xs text-gray-500 text-center">
+                        <p className="text-xs text-black text-center">
                             This will request camera permission. Please allow access for the best experience.
                         </p>
                     </div>
@@ -528,17 +549,17 @@ export default function ARCameraComponent({
             {/* Error display */}
             {cameraState.error && (
                 <div className="absolute top-20 left-4 right-4 z-50 animate-in slide-in-from-top duration-300">
-                    <Card className="p-4 bg-red-50 border-red-200">
+                    <Card className="p-4 bg-white border-2 border-black">
                         <div className="flex items-center gap-2">
                             <AlertCircle className="w-5 h-5 text-red-600" />
-                            <p className="text-red-700 text-sm">{cameraState.error}</p>
+                            <p className="text-black text-sm">{cameraState.error}</p>
                         </div>
                         <Button
                             onClick={() => {
                                 setCameraState(prev => ({ ...prev, error: null }));
                                 startCamera();
                             }}
-                            className="mt-2 w-full"
+                            className="mt-2 w-full bg-white border-2 border-red-600 text-black hover:bg-red-600 hover:text-white"
                             size="sm"
                         >
                             Retry
@@ -584,7 +605,7 @@ export default function ARCameraComponent({
                                 onClick={flipCamera}
                                 variant="outline"
                                 size="lg"
-                                className="w-16 h-16 rounded-full bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm"
+                                className="w-16 h-16 rounded-full bg-white border-2 border-black text-black hover:bg-black hover:text-white"
                                 disabled={cameraState.isLoading || isCapturing}
                             >
                                 <RotateCcw className="w-6 h-6" />
@@ -594,7 +615,7 @@ export default function ARCameraComponent({
                             <Button
                                 onClick={capturePhoto}
                                 size="lg"
-                                className={`w-20 h-20 rounded-full ${primaryClass} shadow-2xl hover:scale-110 transition-transform`}
+                                className="w-20 h-20 rounded-full bg-white border-2 border-red-600 text-black hover:bg-red-600 hover:text-white shadow-2xl hover:scale-110 transition-transform"
                                 disabled={cameraState.isLoading || isCapturing}
                             >
                                 {isCapturing ? (
