@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -25,6 +26,9 @@ export default function AboutPage() {
           </h1>
           <p className="text-xl text-gray-600">
             A Gamified Real-World Treasure Hunt Experience
+          </p>
+          <p className="text-lg text-gray-500 mt-4">
+            A FaithTech Australian Hackathon 2025 Entry
           </p>
         </div>
 
@@ -224,6 +228,48 @@ export default function AboutPage() {
               It&apos;s intentional design that meets the next generation where
               they are and walks with them toward Alpha.
             </p>
+          </section>
+
+          {/* FaithTech Hackathon */}
+          <section className="bg-white rounded-lg shadow-lg p-8">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <Image
+                  src="/faithtech-logo.svg"
+                  alt="FaithTech Logo"
+                  width={200}
+                  height={200}
+                  className="w-32 h-32 md:w-48 md:h-48 object-contain"
+                />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  FaithTech Australian Hackathon 2025
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  This project was created as an entry for the <strong>FaithTech Australian Hackathon 2025</strong>,
+                  a collaborative event bringing together technologists, designers, and innovators
+                  to build solutions that serve the church and advance the Kingdom.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  FaithTech is a global community of Christians in tech, working at the intersection
+                  of faith and technology to create meaningful impact. Through hackathons,
+                  workshops, and local gatherings, FaithTech empowers believers to use their
+                  technical skills for God&apos;s glory.
+                </p>
+                <div className="mt-4">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-red-600 text-red-600 hover:bg-red-50"
+                  >
+                    <Link href="https://faithtech.com" target="_blank" rel="noopener noreferrer">
+                      Learn More About FaithTech
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Call to Action */}
