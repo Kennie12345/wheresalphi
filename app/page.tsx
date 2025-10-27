@@ -9,12 +9,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Where's Alphi? - Start Your Adventure",
     description: "Built on the philosophy of Alpha - a gamified treasure hunt that combines digital engagement with real-world exploration. Bring your friends and start your journey today!",
+    url: 'https://wheresalphi.vercel.app',
     images: [
       {
-        url: '/3dWheresAlphi.png',
-        width: 2048,
-        height: 2048,
+        url: 'https://wheresalphi.vercel.app/og-whatsapp.jpg',
+        width: 1200,
+        height: 630,
         alt: "Where's Alphi - Interactive treasure hunt adventure",
+        type: 'image/jpeg',
       },
     ],
   },
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Where's Alphi? - Start Your Adventure",
     description: "A gamified treasure hunt that meets Gen Z where they are. Explore Alpha with friends through an interactive real-world adventure.",
-    images: ['/3dWheresAlphi.png'],
+    images: ['https://wheresalphi.vercel.app/og-whatsapp.jpg'],
   },
 };
 

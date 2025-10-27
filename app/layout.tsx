@@ -5,7 +5,7 @@ import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : "https://wheresalphi.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
@@ -31,16 +31,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: defaultUrl,
+    url: 'https://wheresalphi.vercel.app',
     siteName: "Where's Alphi",
     title: "Where's Alphi - Treasure Hunt Adventure",
     description: "A gamified real-world treasure hunt experience. Explore Alpha through an interactive adventure combining digital technology with real-world exploration to create meaningful memories and genuine connection.",
     images: [
       {
-        url: '/3dWheresAlphi.png',
-        width: 2048,
-        height: 2048,
+        url: 'https://wheresalphi.vercel.app/og-whatsapp.jpg',
+        width: 1200,
+        height: 630,
         alt: "Where's Alphi - Find Alphi on your adventure",
+        type: 'image/jpeg',
       },
     ],
   },
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Where's Alphi - Treasure Hunt Adventure",
     description: "A gamified real-world treasure hunt experience. Join the adventure to explore Alpha with friends through an interactive mobile experience.",
-    images: ['/3dWheresAlphi.png'],
+    images: ['https://wheresalphi.vercel.app/og-whatsapp.jpg'],
   },
   keywords: ['treasure hunt', 'Alpha', 'adventure', 'gamification', 'faith exploration', 'youth engagement', 'real-world experience'],
 };
