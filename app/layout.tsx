@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     description: "A gamified real-world treasure hunt experience. Explore Alpha through an interactive adventure combining digital technology with real-world exploration to create meaningful memories and genuine connection.",
     images: [
       {
-        url: '/WheresAlphi.png',
-        width: 1200,
-        height: 1200,
+        url: '/3dWheresAlphi.png',
+        width: 2048,
+        height: 2048,
         alt: "Where's Alphi - Find Alphi on your adventure",
       },
     ],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Where's Alphi - Treasure Hunt Adventure",
     description: "A gamified real-world treasure hunt experience. Join the adventure to explore Alpha with friends through an interactive mobile experience.",
-    images: ['/WheresAlphi.png'],
+    images: ['/3dWheresAlphi.png'],
   },
   keywords: ['treasure hunt', 'Alpha', 'adventure', 'gamification', 'faith exploration', 'youth engagement', 'real-world experience'],
 };

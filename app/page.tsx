@@ -11,9 +11,9 @@ export const metadata: Metadata = {
     description: "Built on the philosophy of Alpha - a gamified treasure hunt that combines digital engagement with real-world exploration. Bring your friends and start your journey today!",
     images: [
       {
-        url: '/WheresAlphi.png',
-        width: 1200,
-        height: 1200,
+        url: '/3dWheresAlphi.png',
+        width: 2048,
+        height: 2048,
         alt: "Where's Alphi - Interactive treasure hunt adventure",
       },
     ],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Where's Alphi? - Start Your Adventure",
     description: "A gamified treasure hunt that meets Gen Z where they are. Explore Alpha with friends through an interactive real-world adventure.",
-    images: ['/WheresAlphi.png'],
+    images: ['/3dWheresAlphi.png'],
   },
 };
 
