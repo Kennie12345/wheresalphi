@@ -44,7 +44,7 @@ export default function TeamPage() {
               </div>
               <div>
                 <p>Jillian Lu</p>
-                <p>Zara Meli</p>
+                <p>Zara Ernest</p>
                 <p>Aziza Green</p>
                 <p>Ken Cheung</p>
               </div>
@@ -96,7 +96,7 @@ export default function TeamPage() {
                   </div>
                   <div className="bg-gray-50 rounded-lg p-3">
                     <h4 className="text-base font-semibold text-orange-600 mb-1">
-                      Zara Meli
+                      Zara Ernest
                     </h4>
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Marketing Strategist
