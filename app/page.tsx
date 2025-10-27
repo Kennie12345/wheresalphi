@@ -65,26 +65,18 @@ export default function Home() {
 href="/places"> <p className="animate font-bold animate-pulse transition-all duration-200"           style={{ animationDuration: '3s' }}> START</p></Link>
         </Button>
 
-        <Button
-          asChild
-          size="lg"
-          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-white text-black bold hover:bg-gray-50 hover:shadow-2xl"
-        >
-          <Link href="/progress">PROGRESS</Link>
-        </Button>
+
 </div></div>
 
 
       {/* Buttons at bottom */}
       <div className="relative z-10 flex flex-col gap-4 px-6 pb-12 w-full max-w-md mx-auto animate-in fade-in slide-in-from-bottom duration-700 delay-700">
-
-
         <Button
           asChild
           size="lg"
           className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
         >
-          <Link href="/about">ABOUT</Link>
+          <Link href="/progress">PROGRESS</Link>
         </Button>
 
         <Button
@@ -92,7 +84,15 @@ href="/places"> <p className="animate font-bold animate-pulse transition-all dur
           size="lg"
           className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
         >
-          <Link href="/team">TEAM</Link>
+          <Link href="/about"> ABOUT</Link>
+        </Button>
+
+        <Button
+          asChild
+          size="lg"
+          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
+        >
+          <Link href="/team">OUR HACKATHON TEAM</Link>
         </Button>
 
       </div>
