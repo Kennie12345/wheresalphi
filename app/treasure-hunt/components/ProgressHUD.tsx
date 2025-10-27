@@ -1,6 +1,6 @@
 'use client';
 
-import { Trophy, Target, Star, CheckCircle2 } from 'lucide-react';
+import { Trophy, Target, Star } from 'lucide-react';
 import { UserProgress } from '@/lib/treasure-hunt/types';
 
 interface ProgressHUDProps {
@@ -103,10 +103,39 @@ export default function ProgressHUD({ progress, totalSpots }: ProgressHUDProps) 
                                             `}
                                         >
                                             {isSpotCompleted ? (
-                                                <CheckCircle2
-                                                    className="w-5 h-5 text-green-500 fill-green-500 drop-shadow-lg"
-                                                    strokeWidth={2.5}
-                                                />
+                                                <div className="relative w-5 h-5">
+                                                    <svg
+                                                        viewBox="0 0 24 24"
+                                                        className="w-full h-full drop-shadow-lg"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        {/* Red ring border */}
+                                                        <circle
+                                                            cx="12"
+                                                            cy="12"
+                                                            r="11"
+                                                            fill="none"
+                                                            stroke="#EF4444"
+                                                            strokeWidth="2"
+                                                        />
+                                                        {/* White background circle */}
+                                                        <circle
+                                                            cx="12"
+                                                            cy="12"
+                                                            r="9.5"
+                                                            fill="#FFFFFF"
+                                                        />
+                                                        {/* Red checkmark/tick */}
+                                                        <path
+                                                            d="M 8 12 L 10.5 14.5 L 16 8.5"
+                                                            stroke="#EF4444"
+                                                            strokeWidth="2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            fill="none"
+                                                        />
+                                                    </svg>
+                                                </div>
                                             ) : (
                                                 <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white" />
                                             )}
