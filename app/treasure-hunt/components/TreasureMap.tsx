@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, Circle, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -19,13 +19,21 @@ const defaultIcon = new Icon({
     className: 'alphi-marker-red',
 });
 
-// Completed marker - using WheresAlphi.png with black background
+// Completed marker - red checkmark/tick with white background and red ring (no animation)
 const completedIcon = new Icon({
-    iconUrl: '/WheresAlphi.png',
+    iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <!-- Red ring border -->
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#EF4444" stroke-width="3"/>
+            <!-- White background circle -->
+            <circle cx="20" cy="20" r="15" fill="#FFFFFF"/>
+            <!-- Red checkmark/tick -->
+            <path d="M 14 20 L 18 24 L 26 14" stroke="#EF4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    `),
     iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -40],
-    className: 'alphi-marker-black',
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -20],
 });
 
 type LocationPermissionState = 'prompt' | 'granted' | 'denied' | 'unavailable';
@@ -261,17 +269,6 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
 
-                {/* Region boundary circle */}
-                <Circle
-                    center={[region.center.lat, region.center.lon]}
-                    radius={region.radiusM}
-                    fillColor="red"
-                    fillOpacity={0.1}
-                    color="red"
-                    weight={2}
-                    opacity={0.3}
-                />
-
                 {/* Treasure spots */}
                 {gameState.spots.map((spot) => {
                     const distance = userLocation
@@ -292,6 +289,20 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                                 click: () => handleSpotClick(spot),
                             }}
                         >
+                            <Tooltip direction="top" offset={[0, -40]} opacity={0.95} permanent={false}>
+                                <div className="text-center">
+                                    <p className="font-bold text-sm text-red-600 mb-1">{spot.title}</p>
+                                    {spot.history && (
+                                        <p className="text-xs text-gray-700 mb-1">{spot.history.theme}</p>
+                                    )}
+                                    {distanceText && (
+                                        <p className="text-xs text-red-600 font-medium">📍 {distanceText}</p>
+                                    )}
+                                    {isSpotCompleted(spot.id) && (
+                                        <p className="text-xs text-green-600 font-semibold mt-1">✓ Completed</p>
+                                    )}
+                                </div>
+                            </Tooltip>
                             <Popup maxWidth={300} minWidth={200}>
                                 <div className="text-left">
                                     <h3 className="font-bold text-base mb-2 text-red-600">{spot.title}</h3>
@@ -338,32 +349,28 @@ export default function TreasureMap({ gameState, onGameStateUpdate, region }: Tr
                             />
                         )}
 
-                        {/* User position marker */}
+                        {/* User position marker - red question mark with blue pulsing ring (75% of doubled size) */}
                         <Marker
                             position={[userLocation.lat, userLocation.lon]}
                             icon={new Icon({
                                 iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-                    <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                      <!-- Outermost pulsing ring -->
-                      <circle cx="20" cy="20" r="18" fill="#10B981" opacity="0.15">
-                        <animate attributeName="r" values="18;22;18" dur="1.5s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.15;0.05;0.15" dur="1.5s" repeatCount="indefinite"/>
+                    <svg width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Outer blue pulsing ring -->
+                      <circle cx="45" cy="45" r="39" fill="none" stroke="#3B82F6" stroke-width="3">
+                        <animate attributeName="r" values="39;45;39" dur="1.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.5s" repeatCount="indefinite"/>
                       </circle>
-                      <!-- Middle pulsing ring -->
-                      <circle cx="20" cy="20" r="14" fill="#10B981" opacity="0.25">
-                        <animate attributeName="r" values="14;17;14" dur="1.5s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.25;0.1;0.25" dur="1.5s" repeatCount="indefinite"/>
+                      <!-- Middle blue pulsing ring -->
+                      <circle cx="45" cy="45" r="33" fill="none" stroke="#3B82F6" stroke-width="2">
+                        <animate attributeName="r" values="33;37;33" dur="1.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="1.5s" repeatCount="indefinite"/>
                       </circle>
-                      <!-- Main green circle with blinking effect -->
-                      <circle cx="20" cy="20" r="10" fill="#10B981" stroke="white" stroke-width="3">
-                        <animate attributeName="opacity" values="1;0.6;1" dur="1s" repeatCount="indefinite"/>
-                      </circle>
-                      <!-- White exclamation mark -->
-                      <text x="20" y="26" font-size="20" font-weight="bold" fill="white" text-anchor="middle">!</text>
+                      <!-- Red question mark (center) - 75% of doubled size -->
+                      <text x="45" y="66" font-size="60" font-weight="bold" fill="#EF4444" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif">?</text>
                     </svg>
                   `),
-                                iconSize: [40, 40],
-                                iconAnchor: [20, 40],
+                                iconSize: [90, 90],
+                                iconAnchor: [45, 45],
                                 className: 'user-location-marker',
                             })}
                             zIndexOffset={1000}
