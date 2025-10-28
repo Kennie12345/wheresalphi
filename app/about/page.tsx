@@ -27,7 +27,7 @@ export default function AboutPage() {
           </Link>
         </Button>
           <div className=" flex p-2 items-center justify-center text-black my-8 rounded-lg uppercase text-center text-md font-bold">
-            <Image src="/faithtech-logo.png" alt="FaithTech Logo" width={50} height={50} className="inline-block mr-2 " /><p className="max-w-80">A FaithTech Australia Hackathon 2025 Entry</p> 
+            <Image src="/faithtech-logo.png" alt="FaithTech Logo" width={50} height={50} className="inline-block mr-2 " /><p className="max-w-80 break-words">A FaithTech Australia Hackathon 2025 Entry</p>
           </div>
 
 
@@ -79,20 +79,20 @@ export default function AboutPage() {
             </button>
             {isSolutionOpen && (
               <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4 break-words">
                   Where&apos;s Alphi? directly addresses this challenge by creating
                   a gamified, real-world treasure hunt experience that meets
                   teenagers where they are—digitally engaged yet craving authentic,
                   in-person connections.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4 break-words">
                   Built on the &quot;philosophy of Alpha,&quot; we provide all the
                   resources—the user&apos;s job is simply to bring their friends.
                   This low-barrier invitation model makes evangelism accessible and
                   non-threatening, perfectly suited for how Gen Z naturally shares
                   experiences.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed break-words">
                   By combining digital technology with real-world exploration, we
                   tap into the next generation&apos;s growing desire for
                   &quot;higher friction&quot; personalized experiences that create
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 <h3 className="text-xl font-semibold text-red-600 mb-2">
                   Engaging & Relevant to Digital Lives
                 </h3>
-                <p className="leading-relaxed mb-2">
+                <p className="leading-relaxed mb-2 break-words">
                   <strong>The Technology:</strong> A mobile web app leveraging
                   GPS, camera, and AR technology—tools teenagers already know
                   and love. Similar to Pokémon Go or an escape room, users
@@ -227,7 +227,7 @@ export default function AboutPage() {
               onClick={() => setIsFunnelOpen(!isFunnelOpen)}
               className="w-full p-8 flex items-center justify-between gap-4 text-left hover:bg-gray-50 transition-colors"
             >
-              <h2 className="text-3xl font-bold text-red-600 flex-1">
+              <h2 className="text-3xl font-bold text-red-600 flex-1 break-words">
                 The Funnel: From Digital Discovery to In-Person Alpha
               </h2>
               <ChevronDown
@@ -238,19 +238,19 @@ export default function AboutPage() {
             </button>
             {isFunnelOpen && (
               <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4 break-words">
                   Where&apos;s Alphi? isn&apos;t just a standalone experience—it&apos;s
                   a carefully designed taster and funnel. <strong>The end of the
                   digital journey is the beginning of the in-person one.</strong>
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4 break-words">
                   After completing all locations, users receive a clear,
                   natural call to action: experience Alpha in person with the
                   friends they&apos;ve journeyed with. The final location may even
                   be at a local Alpha course venue, creating a seamless bridge from
                   app to community.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed break-words">
                   By this point, users have already experienced Alpha&apos;s
                   content, built relationships through the journey, and developed
                   the habit of exploring faith with friends—making the transition to
@@ -276,18 +276,18 @@ export default function AboutPage() {
             </button>
             {isImpactOpen && (
               <div className="px-8 pb-8 animate-in fade-in slide-in-from-top duration-300">
-                <p className="text-lg leading-relaxed mb-4">
+                <p className="text-lg leading-relaxed mb-4 break-words">
                   Where&apos;s Alphi? solves Alpha Australia&apos;s core
                   challenge: we&apos;ve created a tool that is simultaneously
                   engaging, safe, and relevant to how the next generation lives.
                 </p>
-                <p className="text-lg leading-relaxed mb-4">
+                <p className="text-lg leading-relaxed mb-4 break-words">
                   More importantly, we&apos;ve empowered young people to do what
                   they naturally want to do—invite friends to share meaningful
                   experiences—while removing the intimidation factor from faith
                   conversations.
                 </p>
-                <p className="text-xl leading-relaxed font-semibold">
+                <p className="text-xl leading-relaxed font-semibold break-words">
                   This isn&apos;t just innovation for innovation&apos;s sake.
                   It&apos;s intentional design that meets the next generation where
                   they are and walks with them toward Alpha.

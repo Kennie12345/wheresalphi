@@ -235,7 +235,7 @@ export default function TreasureHuntPage() {
                                             value={huntCode}
                                             onChange={(e) => setHuntCode(e.target.value)}
                                             className="flex-1 px-3 py-2 border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-white text-black font-mono bg-white"
-                                            placeholder="Enter custom hunt code or use generated"
+                                            placeholder="Enter hunt code"
                                         />
                                         <Button
                                             variant="outline"

@@ -201,7 +201,7 @@ export default function ProgressPage() {
       <div className="mx-auto space-y-6 pt-8">
         {/* Header */}
         <div className="text-center animate-in fade-in slide-in-from-top duration-700">
-          <h1 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
+          <h1 className="text-3xl font-bold text-red-600 drop-shadow-lg mb-2">
             YOUR PROGRESS
           </h1>
           <p className="text-gray-700">
@@ -227,7 +227,7 @@ export default function ProgressPage() {
                   {Math.round(completionPercentage)}%
                 </span>
               </div>
-              <div className="relative w-full bg-red-900/30 rounded-full h-3 overflow-hidden">
+              <div className="relative w-full bg-white rounded-full h-3 overflow-hidden">
                 <div
                   className="h-3 rounded-full transition-all duration-500 ease-out bg-white"
                   style={{ width: `${completionPercentage}%` }}
@@ -248,25 +248,25 @@ export default function ProgressPage() {
 
             <div className="grid grid-cols-2 gap-4 pt-2">
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">
+                <div className="text-2xl font-bold text-black bg-white rounded-lg">
                   {progress.completedSpotIds.length}
                 </div>
                 <div className="text-xs text-red-50">Spots Visited</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">
+                <div className="text-2xl font-bold text-black bg-white rounded-lg">
                   {collectedItems.length}
                 </div>
                 <div className="text-xs text-red-50">Collectibles</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">
+<div className="text-2xl font-bold text-black bg-white rounded-lg">
                   {progress.reflections.length}
                 </div>
                 <div className="text-xs text-red-50">Reflections</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">
+                <div className="text-2xl font-bold text-black bg-white rounded-lg">
                   {new Date(progress.startedAt).toLocaleDateString()}
                 </div>
                 <div className="text-xs text-red-50">Started</div>

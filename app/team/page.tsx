@@ -70,7 +70,7 @@ export default function TeamPage() {
                   <p className="text-xs text-gray-600 mb-1 italic">
                     Project Coordinator
                   </p>
-                  <p className="text-gray-700 text-xs">
+                  <p className="text-gray-700 text-xs break-words">
                     Concept formulation and project coordination
                   </p>
                 </div>
@@ -89,7 +89,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Product Manager & QA Lead
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       Project coordination, pitch development, asset management,
                       and quality assurance
                     </p>
@@ -101,7 +101,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Marketing Strategist
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       Value proposition development and pitch narrative
                     </p>
                   </div>
@@ -121,7 +121,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Full Stack Specialist Engineer
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       Interactive mapping, GPS proximity
                       detection logic, and AR image implementation. Full-Stack development and support.
                     </p>
@@ -133,7 +133,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Lead Project Architect
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       Full-stack development, technical architecture, project management
                     </p>
                   </div>
@@ -153,7 +153,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Lead Product Designer
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       User journey mapping, wireframes, visual design, and pitch
                       presentation design
                     </p>
@@ -165,7 +165,7 @@ export default function TeamPage() {
                     <p className="text-xs text-gray-600 mb-1 italic">
                       Lead UX Designer
                     </p>
-                    <p className="text-gray-700 text-xs">
+                    <p className="text-gray-700 text-xs break-words">
                       User experience flows, interaction design, wireframes, and
                       pitch presentation design
                     </p>

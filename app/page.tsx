@@ -47,7 +47,7 @@ export default function Home() {
       <div className="relative flex-col flex items-center justify-center px-6 py-8 animate-in fade-in slide-in-from-top duration-700">
         
         <div className="relative z-10 px-6 text-center">
-          <h1 className="text-7xl font-bold text-white drop-shadow-lg px-4 py-2 animate-in fade-in zoom-in duration-700 delay-300">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white drop-shadow-lg px-4 py-2 animate-in fade-in zoom-in duration-700 delay-300 break-words">
             WHERE'S ALPHI?
           </h1>
           <p className="text-white mt-2 animate-in fade-in slide-in-from-bottom duration-700 delay-500 uppercase font-semibold tracking-wide">
@@ -90,7 +90,7 @@ href="/places"> <p className="animate font-bold animate-pulse transition-all dur
         <Button
           asChild
           size="lg"
-          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border"
+          className="text-lg px-8 py-6 shadow-xl transition-all duration-200 w-full bg-black text-white bold hover:bg-red-600 hover:shadow-2xl hover:border-white hover:border whitespace-normal break-words"
         >
           <Link href="/team">OUR HACKATHON TEAM</Link>
         </Button>
