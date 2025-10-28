@@ -249,7 +249,7 @@ export default function HistoryPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <MapPin className="w-4 h-4 text-red-600" />
-                            <CardTitle className="text-lg text-black">
+                            <CardTitle className="text-lg text-black break-words line-clamp-2">
                               {visit.spot.title}
                             </CardTitle>
                           </div>
@@ -288,9 +288,9 @@ export default function HistoryPage() {
                         )}
                       </div>
 
-                      {/* Bible Verse */}
+                      {/* Landmark Description */}
                       <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-600">
-                        <p className="text-sm text-gray-800 italic">
+                        <p className="text-sm text-gray-800 italic break-words">
                           "{visit.spot.verse}"
                         </p>
                         <p className="text-xs text-gray-700 mt-2 font-bold">

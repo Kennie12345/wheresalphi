@@ -19,7 +19,7 @@ export default function ProgressHUD({ progress, totalSpots }: ProgressHUDProps) 
             <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-[90%] max-w-md">
                 <div className={`
                     bg-white rounded-2xl shadow-2xl border-2
-                    ${isComplete ? 'border-yellow-400 bg-gradient-to-br from-yellow-50 to-white' : 'border-blue-400'}
+                    ${isComplete ? 'border-yellow-400 bg-gradient-to-br from-yellow-50 to-white' : 'border-red-600'}
                     transition-all duration-500 ease-out
                     ${isComplete ? 'animate-pulse' : ''}
                 `}>
@@ -30,11 +30,11 @@ export default function ProgressHUD({ progress, totalSpots }: ProgressHUDProps) 
                                 {isComplete ? (
                                     <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />
                                 ) : (
-                                    <Target className="w-8 h-8 text-blue-600" />
+                                    <Target className="w-8 h-8 text-red-600" />
                                 )}
                                 <div>
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                        <span className="text-4xl font-bold text-red-600">
                                             {completedCount}
                                         </span>
                                         <span className="text-2xl font-semibold text-gray-400">
@@ -76,7 +76,7 @@ export default function ProgressHUD({ progress, totalSpots }: ProgressHUDProps) 
                                         h-3 rounded-full transition-all duration-500 ease-out
                                         ${isComplete
                                             ? 'bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600'
-                                            : 'bg-gradient-to-r from-blue-500 to-purple-600'
+                                            : 'bg-gradient-to-r from-red-500 to-red-600'
                                         }
                                     `}
                                     style={{ width: `${percentage}%` }}

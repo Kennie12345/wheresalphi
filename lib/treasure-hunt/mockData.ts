@@ -22,39 +22,39 @@ export const REGIONS: Region[] = [
     },
 ];
 
-// Sample verses and reflection prompts
-export const VERSES = [
+// Sample landmarks for treasure hunt (replaces verses)
+export const LANDMARKS = [
     {
-        ref: "John 3:16",
-        text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+        ref: "Hangout Spot (est. 1898)",
+        text: "This place has been THE meeting point for over a century. Think about it—your great-great-grandparents probably hung out here too. Now it's filled with coffee shops, street performers, and people taking photos. Same vibes, different generation. Where do YOU feel most yourself when you're with friends?",
     },
     {
-        ref: "Psalm 23:1",
-        text: "The Lord is my shepherd, I lack nothing.",
+        ref: "Hidden Park (1871)",
+        text: "Right in the middle of the city chaos, there's this crazy peaceful park. It's the spot where people go to escape—to think, to breathe, to actually hear themselves. The trees have seen EVERYTHING: break-ups, first dates, exam stress meltdowns, celebrations. What would you do here if nobody was watching?",
     },
     {
-        ref: "Romans 8:28",
-        text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
+        ref: "Memorial Site (1932)",
+        text: "This place is about remembering people who gave up everything for what they believed in. Sounds heavy, right? But here's the thing—what are YOU willing to stand up for? What matters so much that you'd sacrifice your comfort, your reputation, maybe even your friendships? This spot makes you think about what's worth fighting for.",
     },
     {
-        ref: "Philippians 4:13",
-        text: "I can do all this through him who gives me strength.",
+        ref: "Old Street Corner (1856)",
+        text: "These old buildings used to be where people chased their dreams—merchants, artists, rebels. Some made it big, others failed hard. But they all took risks. Fast forward to now: what dream are you too scared to chase? What's stopping you from being the main character in your own story instead of an extra in someone else's?",
     },
     {
-        ref: "Jeremiah 29:11",
-        text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, to give you hope and a future.",
+        ref: "City Square (1988)",
+        text: "Watch people here for five minutes and you'll see EVERYTHING—street dancers, activists, couples arguing, someone crying, someone laughing. Everyone's living their own reality right here in one space. Makes you wonder: are you living YOUR life, or performing for an audience? Who's the real you when the camera's off?",
     },
     {
-        ref: "Matthew 5:16",
-        text: "In the same way, let your light shine before others, that they may see your good deeds and glorify your Father in heaven.",
+        ref: "Waterfront Walk (2001)",
+        text: "This used to be an ugly, abandoned dock. Nobody wanted to be here. Then someone imagined it differently and transformed the whole thing. Now? It's THE place to be. Your life's the same—what feels broken or ugly right now could become something beautiful. What part of yourself are you ready to reimagine?",
     },
     {
-        ref: "1 Corinthians 13:4",
-        text: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud.",
+        ref: "Community Space (1977)",
+        text: "Random people growing food together in the middle of the city? Sounds weird but it works. Nobody here has the same background, beliefs, or story. But they all show up, plant seeds, and trust the process. Real talk: who's in YOUR community? Who are you actually growing with, not just scrolling past?",
     },
     {
-        ref: "Proverbs 3:5-6",
-        text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+        ref: "The Bridge (1932)",
+        text: "Before this bridge existed, getting across was a nightmare. Someone imagined connecting two sides that seemed impossible to join. Now millions cross it every year without thinking twice. What gap in YOUR life needs bridging? What conversation haven't you had? What friendship have you let fall apart? Some bridges are worth building.",
     },
 ];
 

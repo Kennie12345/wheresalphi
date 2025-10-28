@@ -54,12 +54,12 @@ const generateMockComments = (spotId: string): LocationRating => {
   ];
 
   const mockCommentTexts = [
-    "This location was absolutely beautiful! The verse really spoke to me in a profound way.",
-    "What a peaceful spot. I spent 30 minutes here just reflecting and praying.",
-    "Great experience! The connection between the location and the Bible verse was powerful.",
-    "I came here with my family and we all had such meaningful conversations.",
-    "The atmosphere here is perfect for quiet reflection. Highly recommend visiting early morning.",
-    "This spot challenged my perspective and brought new insights to familiar scripture.",
+    "Ngl this spot hit different. Made me actually think about my life for once instead of just scrolling.",
+    "Came here with friends and we just sat and talked for like an hour. No phones. Just vibes and real conversation.",
+    "Didn't expect this to be so deep tbh. The questions it made me ask myself were lowkey life-changing.",
+    "This place made me realize I've been living on autopilot. Time to actually figure out what I stand for.",
+    "Brought my sister here and we had the most real talk we've had in years. 10/10 would recommend.",
+    "The story behind this spot really made me think about what I'm building with my life. Worth the visit fr.",
   ];
 
   const numComments = Math.floor(Math.random() * 4) + 2;
@@ -168,16 +168,19 @@ export default function ProgressPage() {
 
   if (!gameState) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+      <div className="min-h-screen bg-gradient-to-b from-red-50 to-white p-4">
         <div className="max-w-4xl mx-auto pt-8">
-          <Card>
+          <Card className="shadow-lg">
             <CardContent className="flex flex-col items-center justify-center py-12">
               <MapPin className="w-16 h-16 text-gray-400 mb-4" />
               <h2 className="text-2xl font-bold mb-2">No Active Hunt</h2>
               <p className="text-gray-600 mb-6 text-center">
                 Start your treasure hunt to track your progress!
               </p>
-              <Button onClick={() => (window.location.href = "/places")}>
+              <Button
+                onClick={() => (window.location.href = "/places")}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
                 Start Treasure Hunt
               </Button>
             </CardContent>
@@ -194,11 +197,11 @@ export default function ProgressPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <div className="max-w-4xl mx-auto space-y-6 pt-8">
+    <div className="min-h-screen bg-gradient-to-b from-red-50 to-white p-4">
+      <div className="mx-auto space-y-6 pt-8">
         {/* Header */}
         <div className="text-center animate-in fade-in slide-in-from-top duration-700">
-          <h1 className="text-3xl md:text-4xl font-bold text-red-600 drop-shadow-lg mb-2">
+          <h1 className="text-3xl font-bold text-white drop-shadow-lg mb-2">
             YOUR PROGRESS
           </h1>
           <p className="text-gray-700">
@@ -207,29 +210,34 @@ export default function ProgressPage() {
         </div>
 
         {/* Overall Progress Card */}
-        <Card>
+        <Card className="shadow-lg bg-red-600 text-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-yellow-500" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Trophy className="w-5 h-5 text-white" />
               Overall Progress
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium text-white">
                   {progress.completedSpotIds.length} of 8 spots completed
                 </span>
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium text-white">
                   {Math.round(completionPercentage)}%
                 </span>
               </div>
-              <Progress value={completionPercentage} className="h-3" />
+              <div className="relative w-full bg-red-900/30 rounded-full h-3 overflow-hidden">
+                <div
+                  className="h-3 rounded-full transition-all duration-500 ease-out bg-white"
+                  style={{ width: `${completionPercentage}%` }}
+                />
+              </div>
             </div>
 
             {isCompleted && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 text-green-800">
+              <div className="bg-white border border-white rounded-lg p-4">
+                <div className="flex items-center gap-2 text-white">
                   <CheckCircle2 className="w-5 h-5" />
                   <span className="font-semibold">
                     Congratulations! You've completed the treasure hunt!
@@ -238,30 +246,30 @@ export default function ProgressPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+            <div className="grid grid-cols-2 gap-4 pt-2">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-white">
                   {progress.completedSpotIds.length}
                 </div>
-                <div className="text-xs text-gray-600">Spots Visited</div>
+                <div className="text-xs text-red-50">Spots Visited</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-white">
                   {collectedItems.length}
                 </div>
-                <div className="text-xs text-gray-600">Collectibles</div>
+                <div className="text-xs text-red-50">Collectibles</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-white">
                   {progress.reflections.length}
                 </div>
-                <div className="text-xs text-gray-600">Reflections</div>
+                <div className="text-xs text-red-50">Reflections</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">
+                <div className="text-2xl font-bold text-white">
                   {new Date(progress.startedAt).toLocaleDateString()}
                 </div>
-                <div className="text-xs text-gray-600">Started</div>
+                <div className="text-xs text-red-50">Started</div>
               </div>
             </div>
           </CardContent>
@@ -269,10 +277,10 @@ export default function ProgressPage() {
 
         {/* Collectibles Card */}
         {collectedItems.length > 0 && (
-          <Card>
+          <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-yellow-500" />
+                <Sparkles className="w-5 h-5 text-white" />
                 Collected Treasures
               </CardTitle>
             </CardHeader>
@@ -281,19 +289,16 @@ export default function ProgressPage() {
                 {collectedItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex flex-col items-center p-4 rounded-lg border-2 transition-all hover:shadow-md"
-                    style={{ borderColor: item.color }}
+                    className="flex flex-col items-center p-4 rounded-lg border-2 border-red-200 bg-red-50 transition-all hover:shadow-md hover:border-red-600"
                   >
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center mb-2"
-                      style={{ backgroundColor: item.color + "20" }}
+                      className="w-16 h-16 rounded-full flex items-center justify-center mb-2 bg-white"
                     >
                       <Sparkles
-                        className="w-8 h-8"
-                        style={{ color: item.color }}
+                        className="w-8 h-8 text-white"
                       />
                     </div>
-                    <div className="text-sm font-semibold text-center">
+                    <div className="text-sm font-semibold text-center text-gray-900">
                       {item.name}
                     </div>
                     <div className="text-xs text-gray-600 text-center mt-1">
@@ -307,10 +312,10 @@ export default function ProgressPage() {
         )}
 
         {/* Spots Progress Card */}
-        <Card>
+        <Card className="shadow-lg bg-red-600">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-blue-500" />
+              <MapPin className="w-5 h-5 text-white" />
               Treasure Spots
             </CardTitle>
           </CardHeader>
@@ -329,14 +334,14 @@ export default function ProgressPage() {
                     key={spot.id}
                     className={`p-4 rounded-lg border-2 transition-all ${
                       isCompleted
-                        ? "bg-green-50 border-green-200"
+                        ? "bg-red-50 border-red-200"
                         : "bg-gray-50 border-gray-200"
                     }`}
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 mt-1">
                         {isCompleted ? (
-                          <CheckCircle2 className="w-6 h-6 text-green-600" />
+                          <CheckCircle2 className="w-6 h-6 text-white" />
                         ) : (
                           <Circle className="w-6 h-6 text-gray-400" />
                         )}
@@ -345,16 +350,16 @@ export default function ProgressPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div>
-                            <h3 className="font-semibold text-gray-900">
+                            <h3 className="font-semibold text-gray-900 break-words">
                               {spot.title}
                             </h3>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 break-words">
                               {spot.verseRef}
                             </p>
                           </div>
                           <Badge
                             variant={isCompleted ? "default" : "outline"}
-                            className="flex-shrink-0"
+                            className="flex-shrink-0 text-black border-red-200"
                           >
                             Spot {index + 1}/8
                           </Badge>
@@ -385,7 +390,7 @@ export default function ProgressPage() {
                             </p>
 
                             {reflection && (
-                              <div className="bg-white p-3 rounded border border-green-200">
+                              <div className="bg-white p-3 rounded border border-red-200">
                                 <div className="flex items-center gap-2 text-xs text-gray-600 mb-1">
                                   <BookOpen className="w-3 h-3" />
                                   <span>Your reflection</span>
@@ -396,7 +401,7 @@ export default function ProgressPage() {
                                     ).toLocaleDateString()}
                                   </span>
                                 </div>
-                                <p className="text-sm text-gray-800">
+                                <p className="text-sm text-gray-800 break-words">
                                   {reflection.text}
                                 </p>
                               </div>
@@ -431,7 +436,7 @@ export default function ProgressPage() {
                                           />
                                           <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between mb-1">
-                                              <span className="font-semibold text-sm text-gray-900">
+                                              <span className="font-semibold text-sm text-gray-900 truncate max-w-[200px]">
                                                 {comment.userName}
                                               </span>
                                               <StarRating
@@ -439,7 +444,7 @@ export default function ProgressPage() {
                                                 size="sm"
                                               />
                                             </div>
-                                            <p className="text-sm text-gray-700 mb-2">
+                                            <p className="text-sm text-gray-700 mb-2 break-words">
                                               {comment.text}
                                             </p>
                                             <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -448,10 +453,10 @@ export default function ProgressPage() {
                                                   comment.createdAt
                                                 ).toLocaleDateString()}
                                               </span>
-                                              <button className="flex items-center gap-1 hover:text-blue-600 transition-colors">
+                                              <Button className="flex items-center gap-1 hover:text-white transition-colors">
                                                 <ThumbsUp className="w-3 h-3" />
                                                 <span>{comment.likes}</span>
-                                              </button>
+                                              </Button>
                                             </div>
                                           </div>
                                         </div>
@@ -473,10 +478,10 @@ export default function ProgressPage() {
         </Card>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pb-8">
+        <div className="flex flex-col gap-4 justify-center pb-8">
           <Button
-            variant="outline"
             onClick={() => (window.location.href = "/places")}
+            className="bg-red-600 hover:bg-red-700 text-white"
           >
             <MapPin className="w-4 h-4 mr-2" />
             Continue Hunt
@@ -484,11 +489,15 @@ export default function ProgressPage() {
           <Button
             variant="outline"
             onClick={() => (window.location.href = "/history")}
+            className="bg-red-600 hover:bg-red-700 text-white"
           >
             <BookOpen className="w-4 h-4 mr-2" />
             View History
           </Button>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
             <Share2 className="w-4 h-4 mr-2" />
             Share Progress
           </Button>
